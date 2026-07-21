@@ -5,9 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
         yearElement.textContent = new Date().getFullYear();
     }
 
-    // Simple form submission handler
-
-
     // Mobile menu toggle
     const menuIcon = document.getElementById('menu-icon');
     const navLinks = document.getElementById('nav-links');
