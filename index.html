@@ -16,7 +16,6 @@
                 <li><a href="#about">About Me</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
     </header>
@@ -45,7 +44,7 @@
                 <!-- TODO: Replace placeholder text like [Your Name] and [Company Name] throughout this file with your actual information -->
                 <h1>Hello, I'm <span class="highlight">[Your Name]</span></h1>
                 <p>A passionate Developer | Creator | Innovator</p>
-                <a href="#contact" class="btn">Get in touch</a>
+                <a href="#about" class="btn">About me</a>
             </div>
         </section>
 
@@ -77,48 +76,55 @@
         </section>
 
         <!-- Experience Section -->
-        <section id="experience" class="section bg-light">
-            <h2>Experience</h2>
-            <div class="git-graph-container">
-                <div class="git-graph-line"></div>
-                
-                <!-- Education Item (Left) -->
-                <div class="git-item left">
-                    <div class="git-dot"></div>
-                    <div class="git-content">
-                        <h3>Master of Computer Science - [University]</h3>
-                        <span class="date">2021 - 2023</span>
-                        <p>Specialized in AI and Machine Learning.</p>
+        <section id="experience" class="section experience-split">
+            <!-- Education Experience -->
+            <div class="experience-half education-half">
+                <h2>Education Experience</h2>
+                <div class="git-graph-container">
+                    <div class="git-graph-line"></div>
+                    
+                    <div class="git-item">
+                        <div class="git-dot"></div>
+                        <div class="git-content">
+                            <h3>Master of Computer Science - [University]</h3>
+                            <span class="date">2021 - 2023</span>
+                            <p>Specialized in AI and Machine Learning.</p>
+                        </div>
+                    </div>
+
+                    <div class="git-item">
+                        <div class="git-dot"></div>
+                        <div class="git-content">
+                            <h3>Bachelor of Science - [University]</h3>
+                            <span class="date">2017 - 2021</span>
+                            <p>Computer Science major.</p>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Work Item (Right) -->
-                <div class="git-item right">
-                    <div class="git-dot"></div>
-                    <div class="git-content">
-                        <h3>Software Engineer - [Company Name]</h3>
-                        <span class="date">Jan 2023 - Present</span>
-                        <p>Describe your responsibilities, achievements, and technologies used here.</p>
+            <!-- Work Experience -->
+            <div class="experience-half work-half">
+                <h2>Work Experience</h2>
+                <div class="git-graph-container">
+                    <div class="git-graph-line"></div>
+                    
+                    <div class="git-item">
+                        <div class="git-dot"></div>
+                        <div class="git-content">
+                            <h3>Software Engineer - [Company Name]</h3>
+                            <span class="date">Jan 2023 - Present</span>
+                            <p>Describe your responsibilities, achievements, and technologies used here.</p>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Education Item (Left) -->
-                <div class="git-item left">
-                    <div class="git-dot"></div>
-                    <div class="git-content">
-                        <h3>Bachelor of Science - [University]</h3>
-                        <span class="date">2017 - 2021</span>
-                        <p>Computer Science major.</p>
-                    </div>
-                </div>
-
-                <!-- Work Item (Right) -->
-                <div class="git-item right">
-                    <div class="git-dot"></div>
-                    <div class="git-content">
-                        <h3>Junior Developer - [Company Name]</h3>
-                        <span class="date">Jun 2021 - Dec 2022</span>
-                        <p>Describe your responsibilities, achievements, and technologies used here.</p>
+                    <div class="git-item">
+                        <div class="git-dot"></div>
+                        <div class="git-content">
+                            <h3>Junior Developer - [Company Name]</h3>
+                            <span class="date">Jun 2021 - Dec 2022</span>
+                            <p>Describe your responsibilities, achievements, and technologies used here.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -146,32 +152,10 @@
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="section bg-light">
-            <h2>Contact Me</h2>
-            <p>Interested in working together or just want to say hi?</p>
-            <form id="contact-form" class="contact-form">
-                <label for="contact-name" class="sr-only">Your Name</label>
-                <input type="text" id="contact-name" placeholder="Your Name" required>
-                
-                <label for="contact-email" class="sr-only">Your Email</label>
-                <input type="email" id="contact-email" placeholder="Your Email" required>
-                
-                <label for="contact-message" class="sr-only">Your Message</label>
-                <textarea id="contact-message" rows="5" placeholder="Your Message" required></textarea>
-                
-                <button type="submit" class="btn">Send Message</button>
-            </form>
-        </section>
     </main>
 
     <footer>
         <p>&copy; <span id="year"></span> [Your Name]. All rights reserved.</p>
-        <div class="social-links">
-            <a href="#">GitHub</a>
-            <a href="#">LinkedIn</a>
-            <a href="#">Twitter</a>
-        </div>
     </footer>
 
     <script src="js/script.js"></script>

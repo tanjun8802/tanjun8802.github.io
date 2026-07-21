@@ -6,14 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Simple form submission handler
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thanks for your message! (This is a template so the message was not actually sent)');
-            this.reset();
-        });
-    }
+
 
     // Mobile menu toggle
     const menuIcon = document.getElementById('menu-icon');
