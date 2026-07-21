@@ -22,8 +22,25 @@
     </header>
 
     <main>
-        <!-- Hero Section -->
+        <!-- Hero Section with Carousel -->
         <section id="hero" class="hero">
+            <div class="carousel" id="hero-carousel">
+                <div class="carousel-inner" id="carousel-inner">
+                    <!-- Carousel items will be placed here -->
+                    <div class="carousel-item active" style="background-color: #ddd;">
+                        <span class="carousel-placeholder-text">Click to add image to carousel</span>
+                    </div>
+                </div>
+                <button class="carousel-prev" id="carousel-prev" aria-label="Previous image">&lt;</button>
+                <button class="carousel-next" id="carousel-next" aria-label="Next image">&gt;</button>
+                
+                <!-- Upload button for Carousel -->
+                <label class="btn secondary upload-btn carousel-upload-btn">
+                    Upload Carousel Image (Preview)
+                    <input type="file" accept="image/*" class="carousel-upload-input" id="carousel-upload" multiple>
+                </label>
+            </div>
+
             <div class="hero-content">
                 <h1>Hello, I'm <span class="highlight">[Your Name]</span></h1>
                 <p>A passionate Developer | Creator | Innovator</p>
@@ -36,8 +53,13 @@
             <h2>About Me</h2>
             <div class="about-container">
                 <div class="about-image">
-                    <!-- Placeholder for picture -->
-                    <div class="profile-placeholder">Profile Photo</div>
+                    <!-- Placeholder for picture with Upload feature -->
+                    <label class="image-upload-wrapper">
+                        <input type="file" accept="image/*" class="image-upload-input" id="profile-upload">
+                        <div class="profile-placeholder" id="profile-img-preview">
+                            <span class="upload-text">Click to upload photo (Preview)</span>
+                        </div>
+                    </label>
                 </div>
                 <div class="about-text">
                     <p>Welcome to my personal space. Here you can find more about my background, what I do, and what I love.</p>
