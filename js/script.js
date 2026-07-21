@@ -48,9 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextBtn = document.getElementById('carousel-next');
     let currentSlide = 0;
     
-    function updateCarousel() {
-        const slides = document.querySelectorAll('.carousel-item');
-        if(slides.length === 0) return;
+    function updateCarousel(slides) {
+        if (!slides || slides.length === 0) return;
         
         slides.forEach((slide, index) => {
             slide.classList.remove('active');
@@ -63,16 +62,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (prevBtn && nextBtn) {
         prevBtn.addEventListener('click', function() {
             const slides = document.querySelectorAll('.carousel-item');
-            if(slides.length === 0) return;
+            if (slides.length === 0) return;
             currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            updateCarousel();
+            updateCarousel(slides);
         });
 
         nextBtn.addEventListener('click', function() {
             const slides = document.querySelectorAll('.carousel-item');
-            if(slides.length === 0) return;
+            if (slides.length === 0) return;
             currentSlide = (currentSlide + 1) % slides.length;
-            updateCarousel();
+            updateCarousel(slides);
         });
     }
 
@@ -87,13 +86,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentSlide = 0;
                 }
 
+                let hasActive = carouselInner.querySelector('.active') !== null;
+
                 Array.from(files).forEach((file) => {
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         const newSlide = document.createElement('div');
                         newSlide.className = 'carousel-item';
-                        if (!carouselInner.querySelector('.active')) {
+                        if (!hasActive) {
                             newSlide.classList.add('active');
+                            hasActive = true;
                         }
                         newSlide.style.backgroundImage = `url(${event.target.result})`;
                         carouselInner.appendChild(newSlide);
