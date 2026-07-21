@@ -34,8 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     profilePreview.style.backgroundImage = `url(${event.target.result})`;
-                    profilePreview.innerHTML = ''; // Clear the placeholder text
-                    profilePreview.style.border = 'none';
+                    profilePreview.classList.add('has-image');
                 };
                 reader.readAsDataURL(file);
             }
@@ -88,14 +87,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentSlide = 0;
                 }
 
+                let isFirstUpload = carouselInner.children.length === 0;
+
                 Array.from(files).forEach((file) => {
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         const newSlide = document.createElement('div');
                         newSlide.className = 'carousel-item';
-                        // If it's the first image being added, make it active
-                        if (carouselInner.children.length === 0) {
+                        if (isFirstUpload) {
                             newSlide.classList.add('active');
+                            isFirstUpload = false;
                         }
                         newSlide.style.backgroundImage = `url(${event.target.result})`;
                         carouselInner.appendChild(newSlide);

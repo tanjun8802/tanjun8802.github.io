@@ -243,6 +243,14 @@ nav {
     transition: border-color 0.3s;
 }
 
+.profile-placeholder.has-image {
+    border: none;
+}
+
+.profile-placeholder.has-image .upload-text {
+    display: none;
+}
+
 .image-upload-wrapper:hover .profile-placeholder {
     border-color: #007bff;
     color: #007bff;
