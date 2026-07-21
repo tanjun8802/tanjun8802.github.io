@@ -1,12 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Set current year in footer
-    var yearElement = document.getElementById('year');
+    const yearElement = document.getElementById('year');
     if (yearElement) {
         yearElement.textContent = new Date().getFullYear();
     }
 
     // Simple form submission handler
-    var contactForm = document.getElementById('contact-form');
+    const contactForm = document.getElementById('contact-form');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Mobile menu toggle
-    var menuIcon = document.getElementById('menu-icon');
-    var navLinks = document.getElementById('nav-links');
+    const menuIcon = document.getElementById('menu-icon');
+    const navLinks = document.getElementById('nav-links');
     if (menuIcon && navLinks) {
         menuIcon.addEventListener('click', function() {
             navLinks.classList.toggle('active');
