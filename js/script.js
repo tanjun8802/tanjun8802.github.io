@@ -83,12 +83,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (files.length > 0) {
                 // Remove placeholder if it's the only thing there
                 const placeholder = document.querySelector('.carousel-placeholder-text');
-                if (placeholder && document.querySelectorAll('.carousel-item').length === 1) {
+                if (placeholder) {
                     carouselInner.innerHTML = '';
                     currentSlide = 0;
                 }
 
-                Array.from(files).forEach((file, index) => {
+                Array.from(files).forEach((file) => {
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         const newSlide = document.createElement('div');
