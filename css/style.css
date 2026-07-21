@@ -308,6 +308,7 @@ footer {
     }
     .nav-links li {
         margin: 1rem 0;
+        margin-left: 0;
         text-align: center;
     }
     .about-container {
