@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">My Portfolio</div>
+            <ul class="nav-links">
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <div class="hero-content">
+                <h1>Hello, I'm <span class="highlight">[Your Name]</span></h1>
+                <p>A passionate Developer | Creator | Innovator</p>
+                <a href="#contact" class="btn">Get in touch</a>
+            </div>
+        </section>
+
+        <!-- About Me Section (CV, Pictures, Hobbies) -->
+        <section id="about" class="section">
+            <h2>About Me</h2>
+            <div class="about-container">
+                <div class="about-image">
+                    <!-- Placeholder for picture -->
+                    <div style="width: 300px; height: 300px; background: #ddd; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #666;">Profile Photo</div>
+                </div>
+                <div class="about-text">
+                    <p>Welcome to my personal space. Here you can find more about my background, what I do, and what I love.</p>
+                    <h3>Hobbies & Interests</h3>
+                    <ul>
+                        <li>Coding</li>
+                        <li>Photography</li>
+                        <li>Reading</li>
+                    </ul>
+                    <a href="#" class="btn secondary" target="_blank">Download CV</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Work Experience Section -->
+        <section id="experience" class="section bg-light">
+            <h2>Work Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Software Engineer - [Company Name]</h3>
+                    <span class="date">Jan 2023 - Present</span>
+                    <p>Describe your responsibilities, achievements, and technologies used here.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Junior Developer - [Company Name]</h3>
+                    <span class="date">Jun 2021 - Dec 2022</span>
+                    <p>Describe your responsibilities, achievements, and technologies used here.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects / Repositories Section -->
+        <section id="projects" class="section">
+            <h2>My Projects & Repos</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>Project Name 1</h3>
+                    <p>A brief description of the project. What problem does it solve?</p>
+                    <a href="#" class="btn-link">View Repo</a>
+                </div>
+                <div class="card">
+                    <h3>Project Name 2</h3>
+                    <p>A brief description of the project. What problem does it solve?</p>
+                    <a href="#" class="btn-link">View Repo</a>
+                </div>
+                <div class="card">
+                    <h3>Project Name 3</h3>
+                    <p>A brief description of the project. What problem does it solve?</p>
+                    <a href="#" class="btn-link">View Repo</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section bg-light">
+            <h2>Contact Me</h2>
+            <p>Interested in working together or just want to say hi?</p>
+            <form id="contact-form" class="contact-form">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit" class="btn">Send Message</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; <span id="year"></span> [Your Name]. All rights reserved.</p>
+        <div class="social-links">
+            <a href="#">GitHub</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">Twitter</a>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
