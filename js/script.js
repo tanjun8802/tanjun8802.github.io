@@ -87,16 +87,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     currentSlide = 0;
                 }
 
-                let isFirstUpload = carouselInner.children.length === 0;
-
                 Array.from(files).forEach((file) => {
                     const reader = new FileReader();
                     reader.onload = function(event) {
                         const newSlide = document.createElement('div');
                         newSlide.className = 'carousel-item';
-                        if (isFirstUpload) {
+                        if (!carouselInner.querySelector('.active')) {
                             newSlide.classList.add('active');
-                            isFirstUpload = false;
                         }
                         newSlide.style.backgroundImage = `url(${event.target.result})`;
                         carouselInner.appendChild(newSlide);
