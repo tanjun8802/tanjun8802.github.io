@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jun Tan — Portfolio</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Particle background canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <header>
+        <nav>
+            <div class="logo">&lt;Jun.Tan /&gt;</div>
+            <!-- Hamburger Icon -->
+            <button class="menu-icon" id="menu-icon" aria-label="Toggle navigation menu" aria-expanded="false">&#9776;</button>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section with Carousel -->
+        <section id="hero" class="hero">
+            <div class="carousel" id="hero-carousel">
+                <div class="carousel-inner" id="carousel-inner">
+                    <!-- Carousel items injected by JS -->
+                </div>
+                <button class="carousel-prev" id="carousel-prev" aria-label="Previous image">&lt;</button>
+                <button class="carousel-next" id="carousel-next" aria-label="Next image">&gt;</button>
+                <!-- Upload button for hero carousel images -->
+                <label class="btn carousel-upload-btn" id="carousel-upload-label">
+                    &#128247; Upload Image
+                    <input type="file" accept="image/*" id="carousel-upload" class="image-upload-input">
+                </label>
+            </div>
+
+            <div class="hero-content">
+                <h1>Hello, I'm <span class="highlight" id="hero-name">Name</span></h1>
+                <p id="hero-tagline">Tagline</p>
+                <div class="typing-container">
+                    <span class="typing-text" id="typing-text"></span><span class="cursor">|</span>
+                </div>
+                <a href="#about" class="btn hero-btn">About me</a>
+            </div>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="section fade-in">
+            <h2 class="section-title">About Me</h2>
+            <div class="about-container">
+                <div class="about-image">
+                    <!-- Upload button for profile image -->
+                    <label class="image-upload-wrapper" id="profile-upload-label">
+                        <div class="profile-placeholder" id="profile-img-preview">
+                            <span class="upload-text">&#128247; Click to upload photo</span>
+                        </div>
+                        <input type="file" accept="image/*" id="profile-upload" class="image-upload-input">
+                    </label>
+                </div>
+                <div class="about-text">
+                    <p id="about-text">About text goes here.</p>
+                    <h3>Hobbies &amp; Achievements</h3>
+                    <ul id="about-hobbies">
+                        <!-- Hobbies injected by JS -->
+                    </ul>
+                    <a href="#" id="about-cv-link" class="btn secondary">&#128196; Download CV</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section fade-in">
+            <h2 class="section-title">Tech Stack</h2>
+            <div class="skills-grid" id="skills-grid">
+                <!-- Skill tags injected by JS -->
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="section experience-split fade-in">
+            <!-- Education Experience -->
+            <div class="experience-half education-half">
+                <h2>Education</h2>
+                <div class="git-graph-container" id="education-container">
+                    <!-- Education items injected by JS (SVG-based git graph) -->
+                </div>
+            </div>
+
+            <!-- Work Experience -->
+            <div class="experience-half work-half">
+                <h2>Work Experience</h2>
+                <div class="git-graph-container" id="work-container">
+                    <!-- Work items injected by JS (SVG-based git graph) -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects / Repositories Section -->
+        <section id="projects" class="section fade-in">
+            <h2 class="section-title">My Projects &amp; Repos</h2>
+            <div class="grid" id="projects-grid">
+                <!-- Project cards injected by JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Project Details Modal -->
+    <div id="project-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="year"></span> <span id="footer-name">[Your Name]</span>. All rights reserved.</p>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>

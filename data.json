@@ -1,0 +1,112 @@
+{
+  "hero": {
+    "name": "Jun Tan",
+    "tagline": "Machine Learning Engineer | Robotics Innovator | F1 Software Developer",
+    "carousel": [
+      {
+        "image": "https://via.placeholder.com/1200x600/1a1a2e/e94560?text=Machine+Learning+%26+AI",
+        "description": "Pushing the boundaries of Reinforcement Learning and Neural Architecture Search at Imperial College London."
+      },
+      {
+        "image": "https://via.placeholder.com/1200x600/16213e/0f3460?text=Formula+1+Engineering",
+        "description": "Developing cutting-edge on-car software systems at Mercedes-AMG HPP for the 2026 F1 Power Unit."
+      },
+      {
+        "image": "https://via.placeholder.com/1200x600/0a1931/185adb?text=Robotics+%26+Innovation",
+        "description": "From autonomous rovers to invisible keyboards — building systems that bridge hardware and intelligence."
+      }
+    ]
+  },
+  "about": {
+    "text": "I'm Jun Tan, a Machine Learning researcher and Mechatronics engineer currently pursuing my MSc in Applied Machine Learning at Imperial College London. My journey spans from developing on-car software for Mercedes-AMG's F1 team to inventing reinforcement learning systems for stroke rehabilitation. I thrive at the intersection of intelligent algorithms and real-world engineering — whether that's optimising lap times for Formula 1, building glove-based invisible keyboards, or deploying neural networks on edge devices. I speak English, Mandarin, and Malay, and when I'm not training models, you'll find me speedcubing competitively or playing piano.",
+    "hobbies": [
+      "Competitive Speedcubing — Malaysia National Team, WCA World Championship 2023 (PB: 5.09s, 27 medals)",
+      "Piano — ABRSM Grade 7 Piano, Grade 8 Music Theory",
+      "Robotics — IYRC 2017 World Champion, Malaysia National Representative 2016-2018",
+      "Mathematics Competitions — ASMO 2019 Bronze, KMC 2016 Bronze, National Olympiad 87th"
+    ],
+    "profile_image": "https://via.placeholder.com/300x300/ccc/555?text=Profile+Pic",
+    "cv_link": "attachments/Jun_Tan_CV_2026_Latest (3).pdf"
+  },
+  "education": [
+    {
+      "title": "MSc Applied Machine Learning",
+      "institution": "Imperial College London",
+      "date": "Sep 2025 – Present",
+      "description": "I'm currently researching Task-based Transfer RL with a novel F-N-B factorisation approach, building algorithms that achieve few-shot and zero-shot performance on new tasks. My coursework spans LoRA fine-tuning of BERT, federated learning, neural architecture search, CUDA kernel programming, and distributed optimisation.",
+      "color": "#e73c7e"
+    },
+    {
+      "title": "BEng Mechatronics Engineering",
+      "institution": "University of Southampton",
+      "date": "Oct 2021 – Jun 2024",
+      "description": "I graduated with First Class Honours (80.9%), earning the Zepler Prize in 2022 and the G-Research Prize in 2024 for being top of my class. For my dissertation, I invented Q-LEAC, a reinforcement learning stroke rehabilitation system that cut live training time by over 50% compared to traditional methods, and was tested on real patients.",
+      "color": "#23d5ab"
+    }
+  ],
+  "work": [
+    {
+      "title": "Software & Controls Engineer",
+      "company": "Mercedes-AMG HPP (F1)",
+      "date": "Sep 2024 – Sep 2025",
+      "description": "I spearheaded the development and maintenance of on-car software systems for the 2026 F1 Power Unit, ensuring optimal thread balancing and processor loadings across all ECU cores. I worked closely with the Lap Simulation team on energy deployment optimisers to extract lap time gains, and implemented low-level Simulink code for engine operations, chassis, and brake control with SiL/HiL verification.",
+      "color": "#00d2ff"
+    },
+    {
+      "title": "Energy Storage & Engineering Intern",
+      "company": "Allye Energy (Startup)",
+      "date": "Jun 2024 – Aug 2024",
+      "description": "I delivered a full-stack HMI dashboard for energy harvest/deployment visualisation with a backend API server connecting to a localised MongoDB. I also maintained and analysed an ML prediction model for optimising efficiency of MAX300 BESS units (built from Tesla EV batteries), reducing grid energy harvesting costs by up to 24%.",
+      "color": "#764ba2"
+    },
+    {
+      "title": "Mechatronics Engineering Intern",
+      "company": "Dyson",
+      "date": "Jun 2023 – Sep 2023",
+      "description": "I developed modular LabVIEW code for an automated brushbar test rig that reduced computational cost by 40%, and designed 3D-printed adapters for product compatibility across the business. I established source control practices with Bitbucket and contributed clean OOP-style code through cross-team PRs, using Confluence and Jira for agile traceability.",
+      "color": "#f093fb"
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj1",
+      "title": "Glove-based Invisible Keyboard (GIK)",
+      "image": "https://via.placeholder.com/600x400/1a1a2e/e94560?text=Invisible+Keyboard",
+      "short_description": "A pair of smart gloves that enable keyboard-free typing on any surface using deep learning.",
+      "detail_description": "I built a pair of gloves controlled by NanoRev2, IMUs, and FSRs to capture finger and hand movements, enabling keyboard-free typing on any surface. The custom REFFCO deep ML architecture uses attention LSTM, language model fusion, and Optuna hyperparameter tuning to process 118-dimensional sensor data and predict characters upon surface contact during live inference.",
+      "repo_link": "#"
+    },
+    {
+      "id": "proj2",
+      "title": "Mase EDGE — Android DNN Optimisation",
+      "image": "https://via.placeholder.com/600x400/16213e/0f3460?text=Mase+EDGE",
+      "short_description": "A hardware-in-the-loop pipeline that optimises deep neural networks for efficient execution on Android devices.",
+      "detail_description": "I built a hardware-in-the-loop optimisation pipeline that automates the adaptation of deep neural network models for efficient execution on Android devices. The pipeline uses Optuna to search for optimal hyperparameters including CPU-GPU-NPU delegation ratios, followed by quantisation (QAT/PTQ) and pruning. It achieves hardware-aware deployment tailored to the user's specific Android device based on real-time model feedback.",
+      "repo_link": "#"
+    },
+    {
+      "id": "proj3",
+      "title": "Autonomous Rover with SLAM",
+      "image": "https://via.placeholder.com/600x400/0a1931/185adb?text=Autonomous+Rover",
+      "short_description": "A self-navigating rover with path-planning ability that achieved the highest mark ever recorded for the module.",
+      "detail_description": "I designed and built a self-navigating rover with SLAM-based path-planning capability using LIDAR and gyro sensors for real-time environmental feedback and control. This project achieved the highest mark ever recorded for the module at the University of Southampton.",
+      "repo_link": "#"
+    },
+    {
+      "id": "proj4",
+      "title": "Q-LEAC Stroke Rehabilitation System",
+      "image": "https://via.placeholder.com/600x400/2d1b69/8b5cf6?text=Q-LEAC+Rehab",
+      "short_description": "A reinforcement learning control system for stroke rehabilitation that outperforms traditional methods.",
+      "detail_description": "For my BEng dissertation, I invented Q-LEAC — a MATLAB-C++ reinforcement learning control system for stroke rehabilitation. It uses Q-Learning for forearm muscle stimulation with UltraLeap camera vision feedback in a real-time deployment system, surpassing traditional model-based control methods' live training time by more than 50%. The system was tested on real patients in the hospital.",
+      "repo_link": "#"
+    },
+    {
+      "id": "proj5",
+      "title": "Portfolio Website",
+      "image": "https://via.placeholder.com/600x400/333/fff?text=Portfolio",
+      "short_description": "This interactive, data-driven personal portfolio website you're viewing right now.",
+      "detail_description": "I built this portfolio website using vanilla JavaScript, fetching all content dynamically from a JSON file. It features a git-graph visual timeline for my experience, CSS animations, a responsive grid layout, and a particle background effect — all without any frameworks.",
+      "repo_link": "#"
+    }
+  ]
+}
