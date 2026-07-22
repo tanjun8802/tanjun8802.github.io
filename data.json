@@ -1,0 +1,84 @@
+{
+  "hero": {
+    "name": "Your Name",
+    "tagline": "A passionate Developer | Creator | Innovator",
+    "carousel": [
+      {
+        "image": "https://via.placeholder.com/1200x600/333/fff?text=Showcase+1",
+        "description": "Welcome to my portfolio! This is the first featured item."
+      },
+      {
+        "image": "https://via.placeholder.com/1200x600/555/fff?text=Showcase+2",
+        "description": "Here is another great piece of work I want to highlight."
+      },
+      {
+        "image": "https://via.placeholder.com/1200x600/777/fff?text=Showcase+3",
+        "description": "And the final item in the carousel to catch your eye."
+      }
+    ]
+  },
+  "about": {
+    "text": "Welcome to my personal space. Here you can find more about my background, what I do, and what I love.",
+    "hobbies": ["Coding", "Photography", "Reading", "Traveling"],
+    "profile_image": "https://via.placeholder.com/300x300/ccc/555?text=Profile+Pic",
+    "cv_link": "assets/cv.pdf"
+  },
+  "education": [
+    {
+      "title": "Master of Computer Science",
+      "institution": "[University Name]",
+      "date": "2021 - 2023",
+      "description": "Specialized in AI and Machine Learning. Published multiple papers.",
+      "color": "#ff5722"
+    },
+    {
+      "title": "Bachelor of Science",
+      "institution": "[University Name]",
+      "date": "2017 - 2021",
+      "description": "Computer Science major with a minor in Mathematics.",
+      "color": "#ff9800"
+    }
+  ],
+  "work": [
+    {
+      "title": "Software Engineer",
+      "company": "[Company Name]",
+      "date": "Jan 2023 - Present",
+      "description": "Developed scalable microservices and improved system efficiency by 30%.",
+      "color": "#9c27b0"
+    },
+    {
+      "title": "Junior Developer",
+      "company": "[Company Name]",
+      "date": "Jun 2021 - Dec 2022",
+      "description": "Built responsive UI components using modern frontend frameworks.",
+      "color": "#e91e63"
+    }
+  ],
+  "projects": [
+    {
+      "id": "proj1",
+      "title": "Amazing App 1",
+      "image": "https://via.placeholder.com/600x400/111/fff?text=Project+1",
+      "short_description": "A productivity app that helps you organize your daily tasks efficiently.",
+      "detail_description": "This productivity app features a Kanban board, time tracking, and analytics to help users boost their efficiency. Built using React, Node.js, and MongoDB. It solves the problem of scattered task management by centralizing everything in one place.",
+      "repo_link": "#"
+    },
+    {
+      "id": "proj2",
+      "title": "E-Commerce Platform",
+      "image": "https://via.placeholder.com/600x400/222/fff?text=Project+2",
+      "short_description": "A fully functional e-commerce backend with secure payment integration.",
+      "detail_description": "A robust backend system for e-commerce, including user authentication, shopping cart logic, inventory management, and Stripe API integration for secure payments. Technologies: Python, Django, PostgreSQL.",
+      "repo_link": "#"
+    },
+    {
+      "id": "proj3",
+      "title": "Portfolio Website",
+      "image": "https://via.placeholder.com/600x400/333/fff?text=Project+3",
+      "short_description": "An interactive, data-driven personal portfolio website.",
+      "detail_description": "This very website! It uses vanilla JavaScript to fetch data from a JSON file, rendering all the content dynamically. It features CSS animations, a custom git-graph visual timeline, and a responsive grid layout.",
+      "repo_link": "#"
+    }
+  ]
+}

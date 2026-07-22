@@ -14,85 +14,203 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Image Upload Preview for Profile Picture
-    const profileUpload = document.getElementById('profile-upload');
-    const profilePreview = document.getElementById('profile-img-preview');
-    if (profileUpload && profilePreview) {
-        profileUpload.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(event) {
-                    profilePreview.style.backgroundImage = `url(${event.target.result})`;
-                    profilePreview.classList.add('has-image');
-                };
-                reader.readAsDataURL(file);
+    // Load data from JSON
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => {
+            populateHero(data.hero);
+            populateAbout(data.about);
+            populateExperience(data.education, 'education-container');
+            populateExperience(data.work, 'work-container');
+            populateProjects(data.projects);
+        })
+        .catch(error => console.error('Error loading data:', error));
+
+    function populateHero(heroData) {
+        document.getElementById('hero-name').textContent = heroData.name;
+        document.getElementById('hero-tagline').textContent = heroData.tagline;
+
+        const carouselInner = document.getElementById('carousel-inner');
+        carouselInner.innerHTML = ''; // clear placeholder
+
+        heroData.carousel.forEach((item, index) => {
+            const slide = document.createElement('div');
+            slide.className = 'carousel-item' + (index === 0 ? ' active' : '');
+            slide.style.backgroundImage = `url(${item.image})`;
+            
+            if (item.description) {
+                const caption = document.createElement('div');
+                caption.className = 'carousel-caption';
+                caption.textContent = item.description;
+                slide.appendChild(caption);
             }
+            
+            carouselInner.appendChild(slide);
         });
+
+        initCarousel();
     }
 
-    // Carousel Logic and Image Upload
-    const carouselUpload = document.getElementById('carousel-upload');
-    const carouselInner = document.getElementById('carousel-inner');
-    const prevBtn = document.getElementById('carousel-prev');
-    const nextBtn = document.getElementById('carousel-next');
-    let currentSlide = 0;
-    
-    function updateCarousel(slides) {
-        if (!slides || slides.length === 0) return;
+    function populateAbout(aboutData) {
+        document.getElementById('about-text').textContent = aboutData.text;
         
-        slides.forEach((slide, index) => {
-            slide.classList.remove('active');
-            if (index === currentSlide) {
-                slide.classList.add('active');
-            }
+        const hobbiesList = document.getElementById('about-hobbies');
+        hobbiesList.innerHTML = '';
+        aboutData.hobbies.forEach(hobby => {
+            const li = document.createElement('li');
+            li.textContent = hobby;
+            hobbiesList.appendChild(li);
+        });
+
+        const profilePreview = document.getElementById('profile-img-preview');
+        profilePreview.style.backgroundImage = `url(${aboutData.profile_image})`;
+        profilePreview.classList.add('has-image');
+
+        document.getElementById('about-cv-link').href = aboutData.cv_link;
+    }
+
+    function populateExperience(expData, containerId) {
+        const container = document.getElementById(containerId);
+        // keep the main line
+        const mainLine = container.querySelector('.git-graph-main-line');
+        container.innerHTML = '';
+        container.appendChild(mainLine);
+
+        expData.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'git-item';
+
+            // create branch line
+            const branchLine = document.createElement('div');
+            branchLine.className = 'git-branch-line';
+            branchLine.style.borderColor = item.color;
+            itemDiv.appendChild(branchLine);
+
+            // create dot
+            const dot = document.createElement('div');
+            dot.className = 'git-dot';
+            dot.style.border = `4px solid ${item.color}`;
+            itemDiv.appendChild(dot);
+
+            // create content
+            const content = document.createElement('div');
+            content.className = 'git-content';
+            
+            const title = document.createElement('h3');
+            title.textContent = `${item.title} - ${item.institution || item.company}`;
+            
+            const date = document.createElement('span');
+            date.className = 'date';
+            date.textContent = item.date;
+
+            const desc = document.createElement('p');
+            desc.textContent = item.description;
+
+            content.appendChild(title);
+            content.appendChild(date);
+            content.appendChild(desc);
+            itemDiv.appendChild(content);
+
+            container.appendChild(itemDiv);
         });
     }
 
-    if (prevBtn && nextBtn) {
-        prevBtn.addEventListener('click', function() {
-            const slides = document.querySelectorAll('.carousel-item');
-            if (slides.length === 0) return;
-            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-            updateCarousel(slides);
-        });
+    function populateProjects(projects) {
+        const grid = document.getElementById('projects-grid');
+        grid.innerHTML = '';
 
-        nextBtn.addEventListener('click', function() {
-            const slides = document.querySelectorAll('.carousel-item');
-            if (slides.length === 0) return;
-            currentSlide = (currentSlide + 1) % slides.length;
-            updateCarousel(slides);
+        projects.forEach(proj => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.onclick = () => openModal(proj);
+
+            const img = document.createElement('img');
+            img.src = proj.image;
+            img.className = 'card-image';
+            img.alt = proj.title;
+
+            const content = document.createElement('div');
+            content.className = 'card-content';
+
+            const title = document.createElement('h3');
+            title.textContent = proj.title;
+
+            const shortDesc = document.createElement('p');
+            shortDesc.textContent = proj.short_description;
+
+            const link = document.createElement('span');
+            link.className = 'btn-link';
+            link.textContent = 'View Details';
+
+            content.appendChild(title);
+            content.appendChild(shortDesc);
+            content.appendChild(link);
+
+            card.appendChild(img);
+            card.appendChild(content);
+
+            grid.appendChild(card);
         });
     }
 
-    if (carouselUpload && carouselInner) {
-        carouselUpload.addEventListener('change', function(e) {
-            const files = e.target.files;
-            if (files.length > 0) {
-                // Remove placeholder if it's the only thing there
-                const placeholder = document.querySelector('.carousel-placeholder-text');
-                if (placeholder) {
-                    carouselInner.innerHTML = '';
-                    currentSlide = 0;
+    // Modal Logic
+    const modal = document.getElementById('project-modal');
+    const modalBody = document.getElementById('modal-body');
+    const closeModalBtn = document.getElementById('close-modal');
+
+    function openModal(project) {
+        modalBody.innerHTML = `
+            <h2>${project.title}</h2>
+            <img src="${project.image}" alt="${project.title}" class="modal-image">
+            <p>${project.detail_description}</p>
+            <br>
+            <a href="${project.repo_link}" class="btn" target="_blank">View Repo</a>
+        `;
+        modal.classList.add('show');
+    }
+
+    if (closeModalBtn) {
+        closeModalBtn.onclick = function() {
+            modal.classList.remove('show');
+        }
+    }
+
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.classList.remove('show');
+        }
+    }
+
+    // Carousel Logic
+    function initCarousel() {
+        const prevBtn = document.getElementById('carousel-prev');
+        const nextBtn = document.getElementById('carousel-next');
+        let currentSlide = 0;
+        
+        function updateCarousel(slides) {
+            if (!slides || slides.length === 0) return;
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
                 }
+            });
+        }
 
-                let hasActive = carouselInner.querySelector('.active') !== null;
+        if (prevBtn && nextBtn) {
+            prevBtn.addEventListener('click', function() {
+                const slides = document.querySelectorAll('.carousel-item');
+                if (slides.length === 0) return;
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                updateCarousel(slides);
+            });
 
-                Array.from(files).forEach((file) => {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        const newSlide = document.createElement('div');
-                        newSlide.className = 'carousel-item';
-                        if (!hasActive) {
-                            newSlide.classList.add('active');
-                            hasActive = true;
-                        }
-                        newSlide.style.backgroundImage = `url(${event.target.result})`;
-                        carouselInner.appendChild(newSlide);
-                    };
-                    reader.readAsDataURL(file);
-                });
-            }
-        });
+            nextBtn.addEventListener('click', function() {
+                const slides = document.querySelectorAll('.carousel-item');
+                if (slides.length === 0) return;
+                currentSlide = (currentSlide + 1) % slides.length;
+                updateCarousel(slides);
+            });
+        }
     }
 });
