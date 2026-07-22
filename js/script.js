@@ -5,7 +5,29 @@ document.addEventListener('DOMContentLoaded', function() {
         yearElement.textContent = new Date().getFullYear();
     }
 
-    // Mobile menu toggle
+    // Helpers for basic sanitization
+    function isValidUrl(url) {
+        try {
+            const parsed = new URL(url, window.location.origin);
+            return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+        } catch {
+            return false; // Not a valid URL format, or relative path without base
+        }
+    }
+
+    // Allow relative paths by just returning true if they start with letters, /, or #
+    function safeUrl(url) {
+        if (!url) return '#';
+        if (url.startsWith('#') || url.startsWith('/')) return url;
+        if (url.startsWith('http://') || url.startsWith('https://')) return url;
+        if (!url.includes('://') && !url.startsWith('javascript:')) return url; // relative like 'assets/image.jpg'
+        return '#';
+    }
+
+    function safeColor(color) {
+        if (!color) return '#fff';
+        return color.match(/^[a-zA-Z0-9#\(\)\.,\s]+$/) ? color : '#fff';
+    }
     const menuIcon = document.getElementById('menu-icon');
     const navLinks = document.getElementById('nav-links');
     if (menuIcon && navLinks) {
