@@ -10,13 +10,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const navLinks = document.getElementById('nav-links');
     if (menuIcon && navLinks) {
         menuIcon.addEventListener('click', function() {
-            navLinks.classList.toggle('active');
+            const isActive = navLinks.classList.toggle('active');
+            menuIcon.setAttribute('aria-expanded', isActive);
         });
     }
 
     // Load data from JSON
     fetch('data.json')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
             populateHero(data.hero);
             populateAbout(data.about);
@@ -80,10 +86,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function populateExperience(expData, containerId) {
         const container = document.getElementById(containerId);
-        // keep the main line
-        const mainLine = container.querySelector('.git-graph-main-line');
-        container.innerHTML = '';
-        container.appendChild(mainLine);
+        
+        // Remove existing git items but keep the main line
+        const existingItems = container.querySelectorAll('.git-item');
+        existingItems.forEach(item => item.remove());
 
         expData.forEach(item => {
             const itemDiv = document.createElement('div');
@@ -131,6 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
         projects.forEach(proj => {
             const card = document.createElement('div');
             card.className = 'card';
+            card.setAttribute('role', 'button');
             card.tabIndex = 0;
             card.onclick = () => openModal(proj);
             card.onkeydown = (e) => {
@@ -175,13 +182,34 @@ document.addEventListener('DOMContentLoaded', function() {
     const closeModalBtn = document.getElementById('close-modal');
 
     function openModal(project) {
-        modalBody.innerHTML = `
-            <h2>${project.title}</h2>
-            <img src="${project.image}" alt="${project.title}" class="modal-image">
-            <p>${project.detail_description}</p>
-            <br>
-            <a href="${project.repo_link}" class="btn" target="_blank">View Repo</a>
-        `;
+        modalBody.innerHTML = ''; // clear
+
+        const title = document.createElement('h2');
+        title.id = 'modal-title';
+        title.textContent = project.title;
+
+        const img = document.createElement('img');
+        img.src = project.image;
+        img.alt = project.title;
+        img.className = 'modal-image';
+
+        const desc = document.createElement('p');
+        desc.textContent = project.detail_description;
+
+        const br = document.createElement('br');
+
+        const link = document.createElement('a');
+        link.href = project.repo_link;
+        link.className = 'btn';
+        link.target = '_blank';
+        link.textContent = 'View Repo';
+
+        modalBody.appendChild(title);
+        modalBody.appendChild(img);
+        modalBody.appendChild(desc);
+        modalBody.appendChild(br);
+        modalBody.appendChild(link);
+
         modal.classList.add('show');
     }
 
@@ -196,6 +224,12 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.classList.remove('show');
         }
     }
+
+    window.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modal.classList.contains('show')) {
+            modal.classList.remove('show');
+        }
+    });
 
     // Carousel Logic
     function initCarousel() {
