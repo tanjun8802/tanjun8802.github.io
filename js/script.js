@@ -23,8 +23,17 @@ document.addEventListener('DOMContentLoaded', function() {
             populateExperience(data.education, 'education-container');
             populateExperience(data.work, 'work-container');
             populateProjects(data.projects);
+            
+            // Populate footer name if provided
+            const footerName = document.getElementById('footer-name');
+            if (footerName) {
+                footerName.textContent = data.hero.name;
+            }
         })
-        .catch(error => console.error('Error loading data:', error));
+        .catch(error => {
+            console.error('Error loading data:', error);
+            alert('Failed to load portfolio data. Please try refreshing the page.');
+        });
 
     function populateHero(heroData) {
         document.getElementById('hero-name').textContent = heroData.name;
@@ -122,7 +131,14 @@ document.addEventListener('DOMContentLoaded', function() {
         projects.forEach(proj => {
             const card = document.createElement('div');
             card.className = 'card';
+            card.tabIndex = 0;
             card.onclick = () => openModal(proj);
+            card.onkeydown = (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    openModal(proj);
+                }
+            };
 
             const img = document.createElement('img');
             img.src = proj.image;
@@ -176,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     window.onclick = function(event) {
-        if (event.target == modal) {
+        if (event.target === modal) {
             modal.classList.remove('show');
         }
     }
