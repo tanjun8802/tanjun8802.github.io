@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ===== GIT GRAPH (realistic) =====
     // Standard git colors
-    var GIT_COLORS = ['#e73c7e', '#23d5ab', '#58a6ff', '#d2a8ff', '#f0883e', '#3fb950', '#f778ba', '#79c0ff'];
+    const GIT_COLORS = ['#e73c7e', '#23d5ab', '#58a6ff', '#d2a8ff', '#f0883e', '#3fb950', '#f778ba', '#79c0ff'];
 
     function populateGitGraph(items, containerId) {
         var container = document.getElementById(containerId);
@@ -456,9 +456,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ===== MODAL =====
-    var modal = document.getElementById('project-modal');
-    var modalBody = document.getElementById('modal-body');
-    var closeModalBtn = document.getElementById('close-modal');
+    const modal = document.getElementById('project-modal');
+    const modalBody = document.getElementById('modal-body');
+    const closeModalBtn = document.getElementById('close-modal');
 
     function openModal(project) {
         modalBody.innerHTML = '';
