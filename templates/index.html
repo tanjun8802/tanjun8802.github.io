@@ -7,11 +7,11 @@
   <meta name="theme-color" content="#102039">
   <link rel="canonical" href="https://tanjun8802.github.io/">
   <meta property="og:url" content="https://tanjun8802.github.io/">
-  <meta property="og:image" content="https://tanjun8802.github.io/assets/images/portfolio-03-3.jpg">
-  <meta property="og:title" content="{{name}} — Engineering & Machine Learning">
+  <meta property="og:image" content="https://tanjun8802.github.io/{{hero_image}}">
+  <meta property="og:title" content="{{name}} — {{title}}">
   <meta property="og:description" content="Projects and professional experience in robotics, machine learning, embedded software and Formula 1.">
   <meta property="og:type" content="website">
-  <title>{{name}} — Engineering & Machine Learning</title>
+  <title>{{name}} — {{title}}</title>
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
   <script type="application/json" id="portfolio-data">{{content_json}}</script>
@@ -42,8 +42,8 @@
       </div>
       <div class="hero-feature"><div class="hero-feature-label"><span class="mono">PROJECT GALLERY</span><span class="mono">{{gallery_count}}</span></div><div class="hero-visual" id="hero-highlights">
         <figure class="carousel">
-          <div class="carousel-media"><img src="assets/images/portfolio-03-3.jpg" alt="Southampton Formula Student electric race car in the workshop" fetchpriority="high" width="1000" height="735"></div>
-          <figcaption class="carousel-caption"><p class="eyebrow">Vehicle engineering</p><h3>Southampton Formula Student</h3><p>The team’s electric race car. My work focused on driver controls, cockpit integration and component design.</p></figcaption>
+          <div class="carousel-media"><img src="{{hero_image}}" alt="{{hero_title}}" fetchpriority="high" width="1000" height="735"></div>
+          <figcaption class="carousel-caption"><p class="eyebrow">{{hero_context}}</p><h3>{{hero_title}}</h3><p>{{hero_description}}</p></figcaption>
         </figure>
       </div></div>
     </section>
@@ -77,7 +77,7 @@
     </div></section>
     <section class="contact-section wrap" id="contact"><p class="eyebrow">04 / CONTACT</p><div class="contact-main"><h2>Professional enquiries</h2><a class="contact-arrow" href="mailto:{{email}}" aria-label="Email {{name}}">↗</a></div><div class="contact-bottom"><a href="mailto:{{email}}">{{email}} ↗</a><div><a href="{{linkedin}}" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="{{github}}" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="cv.html" target="_blank" rel="noopener">Read my CV ↗</a></div></div></section>
   </main>
-  <footer class="wrap"><a class="wordmark" href="#home"><span class="brand-mark" aria-hidden="true">JT</span><span>{{name}}</span></a><span>Mechatronics · Machine Learning · Robotics</span><span class="mono">© <span id="year">2026</span> JUN TAN</span></footer>
+  <footer class="wrap"><a class="wordmark" href="#home"><span class="brand-mark" aria-hidden="true">JT</span><span>{{name}}</span></a><span>Mechatronics · Machine Learning · Robotics</span><span class="mono">© <span id="year">2026</span> {{name}}</span></footer>
   <dialog id="story-dialog" aria-labelledby="story-title"><div class="dialog-toolbar"><span class="mono">PROJECT DETAILS</span><button id="close-story" class="close-story" aria-label="Close project details">✕</button></div><div id="story-body"></div></dialog>
   <noscript><div class="noscript">Enable JavaScript to explore the interactive timeline and project stories. You can also read my <a href="cv.html">CV</a> or <a href="attachments/Jun%20Tan%20Portfolio.pdf">project portfolio</a>.</div></noscript>
 </body>

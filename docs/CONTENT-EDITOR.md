@@ -12,7 +12,7 @@ The editor keeps changes in browser memory until you save. It warns before you l
 
 ## Text and stories
 
-Edit fields directly. Use the move buttons to reorder entries and **Add entry** to add an item. The first six projects appear in selected work. Keep education and employment milestones newest first. Fill all required fields in a new entry before saving.
+Edit fields directly. Use the move buttons to reorder entries and **Add entry** to add an item. The first six projects appear in selected work. Keep education and employment milestones newest first. Fill all required fields in a new entry before saving. If you remove every entry from a section, **Add entry** restores the correct form fields so you can start again; required sections must contain a completed entry before validation will pass.
 
 Keep existing **Permanent link IDs** unchanged: shared project links use them. New IDs should be unique lowercase words separated by hyphens, such as `autonomous-rover`. A related project ID must match an entry in Projects.
 
@@ -28,7 +28,7 @@ To add a photograph to a project that currently uses only a diagram, expand the 
 
 In browsers supporting folder access (such as Chrome and Edge), choose **Save to project folder**, select the folder containing `templates/index.html` and `data.json`, then confirm **Save files**. The editor writes new pictures into `assets/images/` and replaces `data.json`. It checks for outside changes before saving, so another edit is not silently overwritten.
 
-If folder access is unavailable, **Download changes** provides separate downloads for `data.json` and each new picture. Replace the project's `data.json` and copy the pictures into `assets/images/`. Downloading does not itself change the project files. The editor keeps its unsaved warning until changes have been written through folder access or the page is reloaded.
+If folder access is unavailable, **Download changes** opens a dialog with separate download links. Select **Download data.json** to download the content file, then select each new picture link. Replace the project's `data.json` and copy the pictures into `assets/images/`. Downloading does not itself change the project files. The editor keeps its unsaved warning until changes have been written through folder access or the page is reloaded.
 
 ## Validate, preview and publish
 

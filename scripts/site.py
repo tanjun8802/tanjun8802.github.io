@@ -24,7 +24,7 @@ def validate(data):
         return True
     if not isinstance(data, dict):
         return ['content: expected a JSON object']
-    require(data.get('profile'), ['name','email','github','linkedin','specialism','introduction','story'], 'profile')
+    require(data.get('profile'), ['name','email','github','linkedin','specialism','introduction','story','title'], 'profile')
     fields = {
         'projects':['id','title','category','context','year','summary','result','source','source_label'],
         'journey':['id','branch','year','date','label','organization','role','summary','source','source_label'],
@@ -105,6 +105,7 @@ def validate(data):
 
 
 def build(data, output):
+    data = {key: value for key, value in data.items() if key != 'editorial_notes'}
     output = output.resolve()
     if output == ROOT or ROOT.is_relative_to(output):
         raise ValueError('Choose a separate output directory, such as dist.')
@@ -124,6 +125,8 @@ def build(data, output):
         digest = hashlib.sha256((ROOT / asset).read_bytes()).hexdigest()[:12]
         template = template.replace(asset + '"', asset + '?v=' + digest + '"')
     values = {key: esc(str(value), quote=True) for key, value in profile.items()}
+    first_slide = data['highlights'][0]
+    values.update({f'hero_{key}': esc(first_slide[key], quote=True) for key in ['image','title','context','description']})
     values['gallery_count'] = f"01–{len(data['highlights']):02}"
     values['content_json'] = json.dumps(data, ensure_ascii=False).replace('<', '\\u003c')
     values['interests'] = ''.join(
@@ -148,7 +151,21 @@ def build(data, output):
         output.joinpath(folder).mkdir()
         for name in names:
             shutil.copy2(ROOT / folder / name, output / folder / name)
-    shutil.copytree(ROOT / 'assets', output / 'assets')
+    image_paths = set()
+    def collect_images(value):
+        if isinstance(value, dict):
+            if value.get('image'):
+                image_paths.add(unquote(urlsplit(value['image']).path))
+            for child in value.values():
+                collect_images(child)
+        elif isinstance(value, list):
+            for child in value:
+                collect_images(child)
+    collect_images(data)
+    for asset in image_paths | {'assets/favicon.svg'}:
+        target = output / asset
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / asset, target)
     output.joinpath('attachments').mkdir()
     shutil.copy2(ROOT / 'attachments/Jun Tan Portfolio.pdf', output / 'attachments/Jun Tan Portfolio.pdf')
     output.joinpath('data.json').write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n')

@@ -12,7 +12,7 @@ const sections = {
   highlights: ['Photo gallery', 'These photographs appear in the introduction. Every picture should have a helpful caption.'],
   interests: ['Interests', 'The pursuits and achievements that form part of your story.'],
   sources: ['Sources', 'Reference documents and links supporting your portfolio.'],
-  editorial_notes: ['Editorial notes', 'Notes for maintaining accurate content. These are not displayed on the website.']
+  editorial_notes: ['Editorial notes', 'Notes for maintaining accurate content. These stay out of the public build.']
 };
 const labels = {id:'Permanent link ID', cv:'Public CV link', portfolio:'Engineering portfolio link', repo:'Repository link', source:'Source document or link', source_label:'Source label', image_description:'Picture description', organization:'Organisation', fit:'Picture fit', diagram:'Illustration style', project:'Related project ID', highlights:'Highlights', sections:'Story sections', gallery:'Additional photographs', image:'Picture', text:'Story text', url:'Link', path:'File path', stat:'Achievement', detail:'Supporting detail'};
 const choices = {category:['ai','robotics','engineering'], branch:['education','work','life'], fit:['contain','cover'], diagram:['gik','qleac','mase','transfer','golf']};
@@ -86,6 +86,13 @@ function renderValue(parent, key, path) {
   if (value && typeof value === 'object') {
     const group = el('div','object-fields');
     for (const child of Object.keys(value)) group.append(renderValue(value,child,[...path,child]));
+    // Show optional links without adding empty values to saved content.
+    if (path.length === 2) {
+      const optionalLinks = path[0] === 'projects' ? ['repo'] : ['journey','highlights'].includes(path[0]) ? ['project'] : [];
+      for (const child of optionalLinks) {
+        if (!Object.hasOwn(value,child)) group.append(renderField(value,child,[...path,child]));
+      }
+    }
     return group;
   }
   return renderField(parent,key,path);
@@ -94,13 +101,28 @@ function blankLike(value, key='') {
   if (key === 'id') return `new-entry-${Date.now().toString(36)}`;
   if (choices[key]) return value || choices[key][0];
   if (Array.isArray(value)) return [];
-  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([name,item]) => [name,blankLike(item,name)]));
+  if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value)
+    .filter(([name]) => !['project','repo'].includes(name))
+    .map(([name,item]) => [name,blankLike(item,name)]));
   if (typeof value === 'boolean') return false;
   if (typeof value === 'number') return 0;
   return '';
 }
-function arrayTemplate(key, items) {
+function arrayTemplate(key, items, path) {
   if (items.length) return blankLike(items[0]);
+  // Empty sections must remain editable after the owner removes their last entry.
+  // Root gallery highlights are objects; a journey entry's highlights are text.
+  if (path.length === 1) {
+    const id = `new-entry-${crypto.randomUUID().slice(0,8)}`;
+    const templates = {
+      projects: {id,title:'',category:'engineering',context:'',year:'',preview:'',summary:'',tags:[],sections:[],result:'',image:'',image_description:'',gallery:[],source:'',source_label:''},
+      journey: {id,branch:'education',year:'',date:'',label:'',organization:'',role:'',summary:'',highlights:[],tags:[],source:'cv.html#education',source_label:''},
+      highlights: {image:'',title:'',context:'',description:'',fit:'contain'},
+      interests: {id,title:'',text:'',stat:'',detail:''},
+      sources: {title:'',path:''}
+    };
+    if (Object.hasOwn(templates,key)) return templates[key];
+  }
   if (key === 'sections') return {heading:'',text:''};
   if (key === 'gallery') return {image:'',caption:'',description:''};
   return '';
@@ -161,7 +183,7 @@ function renderArray(items,key,path) {
     if (path.length === 1) document.querySelector('#section-count').textContent = `${items.length} ENTRIES`;
   }
   const add = el('button','add-button',`+ Add ${key === 'tags' ? 'tag' : key === 'gallery' ? 'picture' : 'entry'}`); add.type='button';
-  add.addEventListener('click',() => { items.push(arrayTemplate(key,items)); changed(); draw(items.length-1); updateCount(); list.lastElementChild?.querySelector('input,textarea,summary')?.focus(); });
+  add.addEventListener('click',() => { items.push(arrayTemplate(key,items,path)); changed(); draw(items.length-1); updateCount(); list.lastElementChild?.querySelector('input,textarea,summary')?.focus(); });
   group.append(list,add); draw(); return group;
 }
 function safeImagePath(value) { return typeof value === 'string' && /^assets\/images\/[a-zA-Z0-9_ .%-]+\.(jpe?g|png|webp|avif)$/i.test(value); }

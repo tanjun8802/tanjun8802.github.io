@@ -19,3 +19,9 @@ The editor loaded correctly and its profile fields and section navigation were i
 ## Release boundary
 
 The PR is the deliverable. Production deployment and GitHub Pages settings have not been changed. External LinkedIn content could not be retrieved. No claim is made of exhaustive cross-browser, screen-reader or Lighthouse certification.
+
+## Independent reviews
+
+Two separate agents reviewed the complete change against main and the release requirements. Standards review found two editor defects (blank optional links in new entries and missing object forms after clearing a section) and an asset-publication mismatch. Spec review independently found the empty-section defect and an ignored editable page title. These were fixed, then both reviewers rechecked the changes and reported no new blocking issue. The owner-browser verification limitation above remains.
+
+Six CLI regression tests pass after the review fixes. Editorial notes are excluded from public JSON and HTML, and only referenced images are copied. The first gallery photograph and the editable profile title now update the generated fallback and metadata as well as the interactive page.

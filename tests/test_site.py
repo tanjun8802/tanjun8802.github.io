@@ -102,5 +102,23 @@ class SiteBuildTests(unittest.TestCase):
             self.assertIn('Autonomous Navigation Rover', source)
             self.assertIn('aria-describedby="project-hint"', source)
 
+    def test_public_content_uses_updated_title_and_first_photo_without_editorial_notes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            data = json.loads((ROOT / 'data.json').read_text())
+            data['profile']['title'] = 'Robotics & Research'
+            data['highlights'][0]['title'] = 'New gallery caption'
+            data['highlights'][0]['image'] = 'assets/images/portfolio-02-1.jpg'
+            data['editorial_notes'] = {'private': 'EDITORIAL_ONLY_MARKER'}
+            source = Path(temp) / 'content.json'
+            source.write_text(json.dumps(data))
+            output = Path(temp) / 'public'
+            result = subprocess.run([sys.executable, str(ROOT / 'scripts/site.py'), 'build', '--content', str(source), '--output', str(output)], capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            page = (output / 'index.html').read_text()
+            self.assertIn('<title>Jun Tan — Robotics &amp; Research</title>', page)
+            self.assertIn('alt="New gallery caption"', page)
+            self.assertNotIn('EDITORIAL_ONLY_MARKER', page)
+            self.assertNotIn('editorial_notes', (output / 'data.json').read_text())
+
 if __name__ == '__main__':
     unittest.main()
