@@ -1,562 +1,479 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Set current year in footer
-    const yearElement = document.getElementById('year');
-    if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
+'use strict';
+
+const $ = (selector, parent = document) => parent.querySelector(selector);
+const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
+const escapeHTML = value => String(value).replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+const colors = {education:'#25647e', work:'#1a53ad', life:'#7e65a2'};
+const categories = {ai:'AI & MACHINE LEARNING', robotics:'ROBOTICS', engineering:'ENGINEERING'};
+let content;
+let journeyFilter = 'all';
+let selectedCommit;
+let projectFilter = 'all';
+let showArchive = false;
+let lastStoryTrigger;
+let currentStoryId;
+const projectSearch = $('#project-search');
+const menuToggle = $('.menu-toggle');
+const navLinks = $('#nav-links');
+const dialog = $('#story-dialog');
+
+$('#year').textContent = new Date().getFullYear();
+function setMenu(open) {
+  menuToggle.setAttribute('aria-expanded', String(open));
+  navLinks.classList.toggle('is-open', open);
+}
+menuToggle.addEventListener('click', () => setMenu(menuToggle.getAttribute('aria-expanded') !== 'true'));
+$$('a', navLinks).forEach(link => link.addEventListener('click', () => setMenu(false)));
+document.addEventListener('pointerdown', event => {
+  if (!event.target.closest('.nav')) setMenu(false);
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && navLinks.classList.contains('is-open')) {
+    setMenu(false);
+    menuToggle.focus();
+  }
+});
+matchMedia('(min-width: 901px)').addEventListener('change', () => setMenu(false));
+
+function visibleCommits() {
+  return content.journey.filter(commit => journeyFilter === 'all' || commit.branch === journeyFilter);
+}
+
+function drawGraph() {
+  const list = $('#commit-list');
+  const rows = $$('.commit-row', list);
+  if (!rows.length) return;
+  const commits = visibleCommits();
+  const width = parseFloat(getComputedStyle(list).getPropertyValue('--graph-width'));
+  const rect = list.getBoundingClientRect();
+  const y = index => {
+    const marker = $('.commit-marker', rows[index]).getBoundingClientRect();
+    return marker.top + marker.height / 2 - rect.top;
+  };
+  const lastY = y(rows.length - 1);
+  let paths = `<path d="M14 0V${lastY}" stroke="#c1cfe2" stroke-dasharray="2 5"/>`;
+  if (journeyFilter === 'all') {
+    const root = commits.findIndex(commit => commit.branch === 'life');
+    const education = commits.map((commit,index) => commit.branch === 'education' ? index : -1).filter(index => index >= 0);
+    const work = commits.map((commit,index) => commit.branch === 'work' ? index : -1).filter(index => index >= 0);
+    if (education.length) {
+      const lastEducation = y(education.at(-1));
+      const rootY = root >= 0 ? y(root) : lastY;
+      paths += `<path d="M14 ${rootY}C14 ${rootY-30} 39 ${lastEducation+30} 39 ${lastEducation}V0" stroke="${colors.education}"/>`;
     }
-
-    // ===== PARTICLE BACKGROUND =====
-    const canvas = document.getElementById('particle-canvas');
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        const PARTICLE_COUNT = 60;
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-
-        function createParticle() {
-            return {
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 0.5,
-                vy: (Math.random() - 0.5) * 0.5,
-                radius: Math.random() * 2 + 0.5,
-                opacity: Math.random() * 0.5 + 0.1
-            };
-        }
-
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-            particles.push(createParticle());
-        }
-
-        function drawParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw connections
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 150) {
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = 'rgba(35, 213, 171, ' + (0.1 * (1 - dist / 150)) + ')';
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                }
-            }
-
-            // Draw particles
-            for (const p of particles) {
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(35, 213, 171, ' + p.opacity + ')';
-                ctx.fill();
-
-                p.x += p.vx;
-                p.y += p.vy;
-
-                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-            }
-
-            requestAnimationFrame(drawParticles);
-        }
-        drawParticles();
+    if (work.length) {
+      const startY = education.length ? y(education.at(-1)) : lastY;
+      const endY = education.length ? y(education[0]) : 0;
+      const bottomWork = y(work.at(-1));
+      const topWork = y(work[0]);
+      paths += `<path d="M39 ${startY}C39 ${startY-30} 65 ${bottomWork+30} 65 ${bottomWork}V${topWork}C65 ${topWork-30} 39 ${endY+30} 39 ${endY}" stroke="${colors.work}"/>`;
     }
+  } else {
+    const x = journeyFilter === 'education' ? 39 : 65;
+    paths += `<path d="M14 ${rect.height}C14 ${lastY+12} ${x} ${lastY+20} ${x} ${lastY}V0" stroke="${colors[journeyFilter]}"/>`;
+  }
+  let svg = $('.branch-svg', list);
+  if (!svg) {
+    svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.classList.add('branch-svg');
+    svg.setAttribute('aria-hidden','true');
+    list.prepend(svg);
+  }
+  svg.setAttribute('viewBox',`0 0 ${width} ${rect.height}`);
+  svg.style.height = `${rect.height}px`;
+  svg.innerHTML = paths;
+}
 
-    // ===== TYPING EFFECT =====
-    const typingPhrases = [
-        'Reinforcement Learning Researcher',
-        'F1 Software Engineer @ Mercedes-AMG',
-        'Imperial College London — MSc ML',
-        'World Champion — IYRC Robotics 2017',
-        'Speedcuber — PB 5.09s'
-    ];
-    let phraseIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    const typingEl = document.getElementById('typing-text');
-
-    function typeEffect() {
-        if (!typingEl) return;
-        const currentPhrase = typingPhrases[phraseIndex];
-
-        if (isDeleting) {
-            typingEl.textContent = currentPhrase.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            typingEl.textContent = currentPhrase.substring(0, charIndex + 1);
-            charIndex++;
-        }
-
-        let delay = isDeleting ? 30 : 60;
-
-        if (!isDeleting && charIndex === currentPhrase.length) {
-            delay = 2000;
-            isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            phraseIndex = (phraseIndex + 1) % typingPhrases.length;
-            delay = 500;
-        }
-
-        setTimeout(typeEffect, delay);
-    }
-    typeEffect();
-
-    // ===== SCROLL FADE-IN =====
-    const fadeElements = document.querySelectorAll('.fade-in');
-    const observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.1 });
-
-    fadeElements.forEach(function(el) {
-        observer.observe(el);
+function renderGraph() {
+  const commits = visibleCommits();
+  const positions = {education:39,work:65,life:14};
+  $('#commit-list').innerHTML = commits.map(commit => `
+    <button class="commit-row ${commit.id === selectedCommit ? 'selected' : ''}" data-commit="${escapeHTML(commit.id)}" aria-pressed="${commit.id === selectedCommit}" aria-controls="commit-inspector" style="--branch-color:${colors[commit.branch]};--node-x:${positions[commit.branch]}px">
+      <span class="commit-marker" aria-hidden="true"><i></i></span><span class="commit-text"><strong>${escapeHTML(commit.label)}</strong><span>${escapeHTML(commit.organization)}</span></span><span class="commit-year">${escapeHTML(commit.year)}</span>
+    </button>`).join('');
+  $$('.commit-row').forEach(button => {
+    button.addEventListener('click', () => {
+      selectCommit(button.dataset.commit);
+      if (matchMedia('(max-width: 900px)').matches) {
+        $('#commit-inspector').focus({preventScroll:true});
+        $('#commit-inspector').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth',block:'start'});
+      }
     });
-
-    // ===== MOBILE MENU =====
-    const menuIcon = document.getElementById('menu-icon');
-    const navLinks = document.getElementById('nav-links');
-    if (menuIcon && navLinks) {
-        menuIcon.addEventListener('click', function() {
-            const isActive = navLinks.classList.toggle('active');
-            menuIcon.setAttribute('aria-expanded', isActive);
-        });
-    }
-
-    // ===== IMAGE UPLOAD HANDLERS =====
-    // Profile image upload
-    const profileUpload = document.getElementById('profile-upload');
-    if (profileUpload) {
-        profileUpload.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    const preview = document.getElementById('profile-img-preview');
-                    preview.style.backgroundImage = 'url(' + ev.target.result + ')';
-                    preview.classList.add('has-image');
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    }
-
-    // Carousel image upload
-    const carouselUpload = document.getElementById('carousel-upload');
-    if (carouselUpload) {
-        carouselUpload.addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = function(ev) {
-                    const carouselInner = document.getElementById('carousel-inner');
-                    // Deactivate all current slides
-                    const currentSlides = carouselInner.querySelectorAll('.carousel-item');
-                    currentSlides.forEach(function(s) { s.classList.remove('active'); });
-
-                    // Create new slide
-                    const slide = document.createElement('div');
-                    slide.className = 'carousel-item active';
-                    slide.style.backgroundImage = 'url(' + ev.target.result + ')';
-                    carouselInner.appendChild(slide);
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    }
-
-    // ===== LOAD DATA =====
-    fetch('data.json')
-        .then(function(response) {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(function(data) {
-            populateHero(data.hero);
-            populateAbout(data.about);
-            populateSkills();
-            populateGitGraph(data.education, 'education-container');
-            populateGitGraph(data.work, 'work-container');
-            populateProjects(data.projects);
-
-            const footerName = document.getElementById('footer-name');
-            if (footerName) {
-                footerName.textContent = data.hero.name;
-            }
-        })
-        .catch(function(error) {
-            console.error('Error loading data:', error);
-            alert('Failed to load portfolio data. Please try refreshing the page.');
-        });
-
-    // ===== POPULATE HERO =====
-    function populateHero(heroData) {
-        document.getElementById('hero-name').textContent = heroData.name;
-        document.getElementById('hero-tagline').textContent = heroData.tagline;
-
-        const carouselInner = document.getElementById('carousel-inner');
-        carouselInner.innerHTML = '';
-
-        heroData.carousel.forEach(function(item, index) {
-            const slide = document.createElement('div');
-            slide.className = 'carousel-item' + (index === 0 ? ' active' : '');
-            slide.style.backgroundImage = 'url(' + item.image + ')';
-
-            if (item.description) {
-                const caption = document.createElement('div');
-                caption.className = 'carousel-caption';
-                caption.textContent = item.description;
-                slide.appendChild(caption);
-            }
-
-            carouselInner.appendChild(slide);
-        });
-
-        initCarousel();
-    }
-
-    // ===== POPULATE ABOUT =====
-    function populateAbout(aboutData) {
-        document.getElementById('about-text').textContent = aboutData.text;
-
-        const hobbiesList = document.getElementById('about-hobbies');
-        hobbiesList.innerHTML = '';
-        aboutData.hobbies.forEach(function(hobby) {
-            const li = document.createElement('li');
-            li.textContent = hobby;
-            hobbiesList.appendChild(li);
-        });
-
-        const profilePreview = document.getElementById('profile-img-preview');
-        profilePreview.style.backgroundImage = 'url(' + aboutData.profile_image + ')';
-        profilePreview.classList.add('has-image');
-
-        document.getElementById('about-cv-link').href = aboutData.cv_link;
-    }
-
-    // ===== POPULATE SKILLS =====
-    function populateSkills() {
-        const skills = [
-            'Python', 'PyTorch', 'CUDA', 'Reinforcement Learning', 'Deep Learning',
-            'MATLAB', 'Simulink', 'C++', 'TypeScript', 'Java',
-            'LabVIEW', 'Git', 'Azure DevOps', 'MongoDB', 'Docker',
-            'Neural Architecture Search', 'Federated Learning', 'MuJoCo',
-            'Optuna', 'SLAM', 'Computer Vision', 'Robotics', 'Mechatronics'
-        ];
-        const grid = document.getElementById('skills-grid');
-        if (!grid) return;
-        grid.innerHTML = '';
-        skills.forEach(function(skill) {
-            const tag = document.createElement('span');
-            tag.className = 'skill-tag';
-            tag.textContent = skill;
-            grid.appendChild(tag);
-        });
-    }
-
-    // ===== GIT GRAPH (realistic) =====
-    // Standard git colors
-    const GIT_COLORS = ['#e73c7e', '#23d5ab', '#58a6ff', '#d2a8ff', '#f0883e', '#3fb950', '#f778ba', '#79c0ff'];
-
-    function populateGitGraph(items, containerId) {
-        var container = document.getElementById(containerId);
-        if (!container) return;
-        container.innerHTML = '';
-
-        var mainX = 20;
-        var branchX = 55;
-        var itemHeight = 130;
-        var dotRadius = 7;
-        var totalHeight = items.length * itemHeight + 40;
-
-        // Create SVG
-        var svgNS = 'http://www.w3.org/2000/svg';
-        var svg = document.createElementNS(svgNS, 'svg');
-        svg.setAttribute('class', 'git-graph-svg');
-        svg.setAttribute('width', '70');
-        svg.setAttribute('height', totalHeight.toString());
-        svg.style.height = totalHeight + 'px';
-
-        // Main branch line
-        var mainLine = document.createElementNS(svgNS, 'line');
-        mainLine.setAttribute('x1', mainX.toString());
-        mainLine.setAttribute('y1', '0');
-        mainLine.setAttribute('x2', mainX.toString());
-        mainLine.setAttribute('y2', totalHeight.toString());
-        mainLine.setAttribute('stroke', '#3fb950');
-        mainLine.setAttribute('stroke-width', '3');
-        svg.appendChild(mainLine);
-
-        items.forEach(function(item, i) {
-            var cy = i * itemHeight + 50;
-            var color = GIT_COLORS[i % GIT_COLORS.length];
-
-            // Branch-out curve (from main to branch dot)
-            var path = document.createElementNS(svgNS, 'path');
-            var d = 'M ' + mainX + ' ' + (cy - 25) +
-                    ' C ' + mainX + ' ' + (cy - 5) +
-                    ' ' + branchX + ' ' + (cy - 15) +
-                    ' ' + branchX + ' ' + cy;
-            path.setAttribute('d', d);
-            path.setAttribute('stroke', color);
-            path.setAttribute('stroke-width', '2.5');
-            path.setAttribute('fill', 'none');
-            svg.appendChild(path);
-
-            // Merge-back curve (from branch dot back to main)
-            var pathBack = document.createElementNS(svgNS, 'path');
-            var dBack = 'M ' + branchX + ' ' + cy +
-                        ' C ' + branchX + ' ' + (cy + 15) +
-                        ' ' + mainX + ' ' + (cy + 5) +
-                        ' ' + mainX + ' ' + (cy + 25);
-            pathBack.setAttribute('d', dBack);
-            pathBack.setAttribute('stroke', color);
-            pathBack.setAttribute('stroke-width', '2.5');
-            pathBack.setAttribute('fill', 'none');
-            svg.appendChild(pathBack);
-
-            // Main branch dot (merge point top)
-            var mainDot1 = document.createElementNS(svgNS, 'circle');
-            mainDot1.setAttribute('cx', mainX.toString());
-            mainDot1.setAttribute('cy', (cy - 25).toString());
-            mainDot1.setAttribute('r', '4');
-            mainDot1.setAttribute('fill', '#3fb950');
-            svg.appendChild(mainDot1);
-
-            // Main branch dot (merge point bottom)
-            var mainDot2 = document.createElementNS(svgNS, 'circle');
-            mainDot2.setAttribute('cx', mainX.toString());
-            mainDot2.setAttribute('cy', (cy + 25).toString());
-            mainDot2.setAttribute('r', '4');
-            mainDot2.setAttribute('fill', '#3fb950');
-            svg.appendChild(mainDot2);
-
-            // Branch commit dot
-            var branchDot = document.createElementNS(svgNS, 'circle');
-            branchDot.setAttribute('cx', branchX.toString());
-            branchDot.setAttribute('cy', cy.toString());
-            branchDot.setAttribute('r', dotRadius.toString());
-            branchDot.setAttribute('fill', color);
-            branchDot.setAttribute('stroke', '#0d1117');
-            branchDot.setAttribute('stroke-width', '2');
-            svg.appendChild(branchDot);
-
-            // Content card
-            var itemDiv = document.createElement('div');
-            itemDiv.className = 'git-item';
-            itemDiv.style.marginTop = (i === 0 ? '25px' : '0');
-            itemDiv.style.height = itemHeight + 'px';
-            itemDiv.style.display = 'flex';
-            itemDiv.style.alignItems = 'center';
-
-            var content = document.createElement('div');
-            content.className = 'git-content';
-            content.style.borderLeftColor = color;
-
-            // Generate a fake commit hash for visual effect
-            var hash = Math.random().toString(16).substring(2, 9);
-            var hashSpan = document.createElement('span');
-            hashSpan.className = 'commit-hash';
-            hashSpan.textContent = hash;
-
-            var title = document.createElement('h3');
-            title.textContent = item.title + ' — ' + (item.institution || item.company);
-
-            var date = document.createElement('span');
-            date.className = 'date';
-            date.textContent = item.date;
-
-            var desc = document.createElement('p');
-            desc.textContent = item.description;
-
-            content.appendChild(hashSpan);
-            content.appendChild(title);
-            content.appendChild(date);
-            content.appendChild(desc);
-            itemDiv.appendChild(content);
-
-            container.appendChild(itemDiv);
-
-            // Observe for animation
-            var animObserver = new IntersectionObserver(function(entries) {
-                entries.forEach(function(entry) {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-in');
-                    }
-                });
-            }, { threshold: 0.2 });
-            animObserver.observe(itemDiv);
-        });
-
-        container.insertBefore(svg, container.firstChild);
-        container.style.minHeight = totalHeight + 'px';
-    }
-
-    // ===== POPULATE PROJECTS =====
-    function populateProjects(projects) {
-        var grid = document.getElementById('projects-grid');
-        grid.innerHTML = '';
-
-        projects.forEach(function(proj) {
-            var card = document.createElement('div');
-            card.className = 'card';
-            card.setAttribute('role', 'button');
-            card.tabIndex = 0;
-            card.onclick = function() { openModal(proj); };
-            card.onkeydown = function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    openModal(proj);
-                }
-            };
-
-            var img = document.createElement('img');
-            img.src = proj.image;
-            img.className = 'card-image';
-            img.alt = proj.title;
-
-            var content = document.createElement('div');
-            content.className = 'card-content';
-
-            var title = document.createElement('h3');
-            title.textContent = proj.title;
-
-            var shortDesc = document.createElement('p');
-            shortDesc.textContent = proj.short_description;
-
-            var link = document.createElement('span');
-            link.className = 'btn-link';
-            link.textContent = 'View Details →';
-
-            content.appendChild(title);
-            content.appendChild(shortDesc);
-            content.appendChild(link);
-
-            card.appendChild(img);
-            card.appendChild(content);
-
-            grid.appendChild(card);
-        });
-    }
-
-    // ===== MODAL =====
-    const modal = document.getElementById('project-modal');
-    const modalBody = document.getElementById('modal-body');
-    const closeModalBtn = document.getElementById('close-modal');
-
-    function openModal(project) {
-        modalBody.innerHTML = '';
-
-        var title = document.createElement('h2');
-        title.id = 'modal-title';
-        title.textContent = project.title;
-
-        var img = document.createElement('img');
-        img.src = project.image;
-        img.alt = project.title;
-        img.className = 'modal-image';
-
-        var desc = document.createElement('p');
-        desc.textContent = project.detail_description;
-
-        var br = document.createElement('br');
-
-        var link = document.createElement('a');
-        link.href = project.repo_link;
-        link.className = 'btn';
-        link.target = '_blank';
-        link.textContent = 'View Repo';
-
-        modalBody.appendChild(title);
-        modalBody.appendChild(img);
-        modalBody.appendChild(desc);
-        modalBody.appendChild(br);
-        modalBody.appendChild(link);
-
-        modal.classList.add('show');
-    }
-
-    if (closeModalBtn) {
-        closeModalBtn.onclick = function() {
-            modal.classList.remove('show');
-        };
-    }
-
-    window.onclick = function(event) {
-        if (event.target === modal) {
-            modal.classList.remove('show');
-        }
-    };
-
-    window.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && modal.classList.contains('show')) {
-            modal.classList.remove('show');
-        }
+    button.addEventListener('keydown', event => {
+      if (!['ArrowDown','ArrowUp','Home','End'].includes(event.key)) return;
+      event.preventDefault();
+      const rows = $$('.commit-row');
+      let index = rows.indexOf(button);
+      if (event.key === 'Home') index = 0;
+      else if (event.key === 'End') index = rows.length - 1;
+      else index = (index + (event.key === 'ArrowDown' ? 1 : -1) + rows.length) % rows.length;
+      selectCommit(rows[index].dataset.commit);
+      rows[index].focus({preventScroll:true});
     });
+  });
+  $('#commit-count').textContent = `${commits.length} ${commits.length === 1 ? 'milestone' : 'milestones'}`;
+  drawGraph();
+}
 
-    // ===== CAROUSEL =====
-    function initCarousel() {
-        var prevBtn = document.getElementById('carousel-prev');
-        var nextBtn = document.getElementById('carousel-next');
-        var currentSlide = 0;
-        var autoSlideTimer;
+function selectCommit(id) {
+  selectedCommit = id;
+  $$('.commit-row').forEach(button => {
+    const active = button.dataset.commit === id;
+    button.classList.toggle('selected', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  renderInspector();
+}
 
-        function updateCarousel(slides) {
-            if (!slides || slides.length === 0) return;
-            slides.forEach(function(slide, index) {
-                slide.classList.remove('active');
-                if (index === currentSlide) {
-                    slide.classList.add('active');
-                }
-            });
-        }
+function renderInspector() {
+  const commit = content.journey.find(item => item.id === selectedCommit);
+  const commits = visibleCommits();
+  if (!commit) {
+    $('#commit-inspector').innerHTML = '<p class="inspector-description">No milestones in this branch yet. Select another branch.</p>';
+    return;
+  }
+  const index = commits.findIndex(item => item.id === selectedCommit);
+  $('#commit-inspector').innerHTML = `
+    <div class="inspector-meta"><span class="branch-badge ${escapeHTML(commit.branch)}"><i class="legend-dot ${escapeHTML(commit.branch)}"></i>${escapeHTML(commit.branch)}</span><span>MILESTONE ${String(content.journey.length-content.journey.indexOf(commit)).padStart(2,'0')}</span></div>
+    <h3>${escapeHTML(commit.organization)}</h3><p class="inspector-role">${escapeHTML(commit.role)}</p><p class="inspector-date">${escapeHTML(commit.date)}</p>
+    <hr class="inspector-divider"><p class="inspector-description">${escapeHTML(commit.summary)}</p>
+    <ul class="inspector-highlights">${commit.highlights.map(item=>`<li>${escapeHTML(item)}</li>`).join('')}</ul>
+    <div class="tag-list">${commit.tags.map(tag=>`<span class="tag">${escapeHTML(tag)}</span>`).join('')}</div>
+    ${commit.project ? `<button class="text-link" style="margin-top:18px;background:transparent" data-related-project="${escapeHTML(commit.project)}">View project details ↗</button><br>` : ''}
+    <a class="inspector-source" href="${escapeHTML(commit.source)}" target="_blank" rel="noopener">${escapeHTML(commit.source_label)} ↗</a>
+    <div class="inspector-nav"><button aria-label="Newer milestone" data-direction="-1" ${index === 0 ? 'disabled' : ''}>↑</button><button aria-label="Earlier milestone" data-direction="1" ${index === commits.length-1 ? 'disabled' : ''}>↓</button></div>`;
+  $$('[data-direction]').forEach(button => button.addEventListener('click', () => {
+    const direction = button.dataset.direction;
+    selectCommit(commits[index + Number(direction)].id);
+    const replacement = $(`[data-direction="${direction}"]`);
+    (replacement.disabled ? $('.inspector-nav button:not(:disabled)') : replacement)?.focus({preventScroll:true});
+  }));
+  const related = $('[data-related-project]');
+  if (related) related.addEventListener('click', () => openStory(related.dataset.relatedProject, related));
+}
 
-        function nextSlide() {
-            var slides = document.querySelectorAll('.carousel-item');
-            if (slides.length === 0) return;
-            currentSlide = (currentSlide + 1) % slides.length;
-            updateCarousel(slides);
-        }
+$$('[data-journey-filter]').forEach(button => button.addEventListener('click', () => {
+  if (!content) return;
+  journeyFilter = button.dataset.journeyFilter;
+  $$('[data-journey-filter]').forEach(item => {
+    const active = item === button;
+    item.classList.toggle('active', active);
+    item.setAttribute('aria-pressed', String(active));
+  });
+  if (!visibleCommits().some(commit => commit.id === selectedCommit)) selectedCommit = visibleCommits()[0]?.id;
+  renderGraph();
+  renderInspector();
+}));
 
-        // Auto-advance every 5 seconds
-        function startAuto() {
-            clearInterval(autoSlideTimer);
-            autoSlideTimer = setInterval(nextSlide, 5000);
-        }
-        startAuto();
+const diagrams = {
+  transfer:{title:'TASK-BASED TRANSFER / REINFORCEMENT LEARNING',nodes:[['Explore','contrastive RL'],['Factorise','F-N-B'],['Transfer','new tasks']],caption:'CONTRASTIVE REPRESENTATIONS · TASK TRANSFER'},
+  gik:{title:'GLOVE-BASED INVISIBLE KEYBOARD', nodes:[['118D','sensor input'],['LSTM','attention'],['ABC','LM fusion']], caption:'MOVEMENT → REPRESENTATION → CHARACTERS'},
+  qleac:{title:'Q-LEAC / THE FEEDBACK LOOP',nodes:[['Q-learning','controller'],['Stimulate','forearm'],['Track','UltraLeap']],caption:'SENSE → LEARN → ACT → SENSE AGAIN'},
+  mase:{title:'MASE EDGE / HARDWARE IN THE LOOP',nodes:[['Search','Optuna'],['Deploy','Android'],['Measure','feedback']],caption:'MODEL × DEVICE × OPTIMISATION'},
+  golf:{title:'EXPERIMENTS IN MODEL EFFICIENCY',nodes:[['Train','Muon'],['Quantise','MXINT4'],['Prune','weights']],caption:'TRAINING · QUANTISATION · PRUNING'}
+};
 
-        if (prevBtn && nextBtn) {
-            prevBtn.addEventListener('click', function() {
-                var slides = document.querySelectorAll('.carousel-item');
-                if (slides.length === 0) return;
-                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-                updateCarousel(slides);
-                startAuto();
-            });
+function diagramHTML(type, extraClass='') {
+  const diagram = diagrams[type];
+  const marks = {gik:['A ↗','Wearable input'],qleac:['↻','Learning through feedback'],mase:['↗','Model meets device'],transfer:['◇ → ◇','Transfer across tasks'],golf:['{ · }','Efficient language models']};
+  const mark = marks[type];
+  return `<div class="diagram diagram-${escapeHTML(type)} ${extraClass}" role="img" aria-label="${escapeHTML(diagram.title + ': ' + diagram.nodes.map(node=>node.join(' — ')).join('; '))}"><span class="diagram-title">${escapeHTML(diagram.title)}</span><div class="diagram-mark" aria-hidden="true"><strong>${mark[0]}</strong><span>${mark[1]}</span></div><div class="diagram-flow">${diagram.nodes.map((node,index)=>`${index ? '<span class="diagram-arrow" aria-hidden="true">→</span>':''}<div class="diagram-node">${escapeHTML(node[0])}<small>${escapeHTML(node[1])}</small></div>`).join('')}</div><span class="diagram-caption">${escapeHTML(diagram.caption)}</span></div>`;
+}
 
-            nextBtn.addEventListener('click', function() {
-                var slides = document.querySelectorAll('.carousel-item');
-                if (slides.length === 0) return;
-                currentSlide = (currentSlide + 1) % slides.length;
-                updateCarousel(slides);
-                startAuto();
-            });
-        }
+/** Manual image navigation keeps each caption visible until the reader advances. */
+function createCarousel(slides, {label, className=''}) {
+  const figure = document.createElement('figure');
+  figure.className = `carousel ${className}`;
+  figure.setAttribute('role','region');
+  figure.setAttribute('aria-roledescription','carousel');
+  figure.setAttribute('aria-label',label);
+  figure.innerHTML = `<div class="carousel-media" role="group" aria-roledescription="slide"></div><figcaption class="carousel-caption" aria-live="polite" aria-atomic="true"></figcaption>`;
+  let index = 0;
+  const media = $('.carousel-media',figure);
+  const caption = $('.carousel-caption',figure);
+  let counter;
+  let dots = [];
+  if (slides.length > 1) {
+    const controls = document.createElement('div');
+    controls.className = 'carousel-controls';
+    controls.innerHTML = `<div class="carousel-arrows"><button class="carousel-arrow carousel-prev" aria-label="Previous image">←</button><span class="carousel-counter" aria-hidden="true"></span><button class="carousel-arrow carousel-next" aria-label="Next image">→</button></div><div class="carousel-dots" role="group" aria-label="Choose an image">${slides.map((slide,i)=>`<button class="carousel-dot" data-slide="${i}" aria-label="Show image ${i+1}: ${escapeHTML(slide.title)}" aria-pressed="false"></button>`).join('')}</div>`;
+    caption.before(controls);
+    counter = $('.carousel-counter',figure);
+    dots = $$('.carousel-dot',figure);
+    $('.carousel-prev',figure).addEventListener('click',()=>show(index-1));
+    $('.carousel-next',figure).addEventListener('click',()=>show(index+1));
+    dots.forEach((dot,i)=>dot.addEventListener('click',()=>show(i)));
+    let swipeStart;
+    media.addEventListener('pointerdown', event => {
+      if (event.pointerType === 'touch' && event.isPrimary) swipeStart = [event.clientX, event.clientY];
+    });
+    media.addEventListener('pointercancel', () => { swipeStart = undefined; });
+    media.addEventListener('pointerup', event => {
+      if (!swipeStart) return;
+      const dx = event.clientX - swipeStart[0];
+      const dy = event.clientY - swipeStart[1];
+      swipeStart = undefined;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy) * 1.5) show(index + (dx < 0 ? 1 : -1));
+    });
+    figure.addEventListener('keydown',event=>{
+      if (!['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+      // Native text selection and input editing should retain their own key behaviour.
+      if (event.target.matches('input,textarea') || caption.contains(event.target)) return;
+      event.preventDefault();
+      if (event.key==='Home') show(0);
+      else if (event.key==='End') show(slides.length-1);
+      else show(index+(event.key==='ArrowRight'?1:-1));
+    });
+  }
+  function show(nextIndex) {
+    index = (nextIndex+slides.length)%slides.length;
+    const slide = slides[index];
+    figure.dataset.slideIndex = String(index);
+    media.setAttribute('aria-label',`Image ${index+1} of ${slides.length}`);
+    media.classList.toggle('is-diagram', !slide.image);
+    if (slide.image) {
+      const img = document.createElement('img');
+      img.src = slide.image;
+      img.alt = slide.title;
+      img.width = 1000; img.height = 735;
+      if (slide.fit==='cover') img.classList.add('cover');
+      if (index===0 && className==='highlights-carousel') img.fetchPriority='high';
+      media.replaceChildren(img);
+    } else media.innerHTML = diagramHTML(slide.diagram);
+    caption.innerHTML = `${slide.context?`<p class="eyebrow">${escapeHTML(slide.context)}</p>`:''}<h3>${escapeHTML(slide.title)}</h3><p>${escapeHTML(slide.description)}</p>${slide.project?`<button class="text-link carousel-project-link" data-slide-project="${escapeHTML(slide.project)}">View project details ↗</button>`:''}`;
+    const projectButton = $('[data-slide-project]',caption);
+    if (projectButton) projectButton.addEventListener('click',()=>openStory(projectButton.dataset.slideProject,projectButton));
+    if (counter) counter.textContent = `${index+1} / ${slides.length}`;
+    dots.forEach((dot,i)=>dot.setAttribute('aria-pressed',String(i===index)));
+  }
+  show(0);
+  return figure;
+}
+
+function renderProjects() {
+  const query = projectSearch.value.trim().toLowerCase();
+  const terms = query.split(/\s+/).filter(Boolean);
+  const categoryProjects = content.projects.filter(project => projectFilter === 'all' || project.category === projectFilter);
+  const all = categoryProjects.filter(project => {
+    const searchable = [project.title, project.summary, project.context, project.image_description, project.result, ...project.tags, ...project.sections.map(section => section.text)].join(' ').toLowerCase();
+    return terms.every(term => searchable.includes(term));
+  });
+  const visible = query || showArchive || projectFilter !== 'all' ? all : all.slice(0,6);
+  $('#project-grid').innerHTML = visible.map(project => `
+    <details class="project-card" data-id="${escapeHTML(project.id)}">
+      <summary class="project-summary">
+        <span class="project-visual" aria-hidden="true">${project.image ? `<img src="${escapeHTML(project.image)}" alt="" loading="lazy" width="600" height="400">` : diagramHTML(project.diagram)}<span class="project-index">${String(content.projects.indexOf(project)+1).padStart(2,'0')}</span></span>
+        <span class="project-label">
+          <span class="project-meta">${categories[project.category]} <span class="project-date">${escapeHTML(project.year)}</span></span>
+          <span class="project-title-line"><span class="project-title">${escapeHTML(project.title)}</span><span class="project-expand" aria-hidden="true"></span></span>
+          <span class="project-preview">${escapeHTML(project.preview || project.summary)}</span>
+        </span>
+      </summary>
+      <div class="project-overview">
+        <p class="project-context">${escapeHTML(project.context)} · ${escapeHTML(project.year)}</p>
+        <p class="project-description">${escapeHTML(project.summary)}</p>
+        <div class="tag-list">${project.tags.map(tag=>`<span class="tag">${escapeHTML(tag)}</span>`).join('')}</div>
+        <button class="project-case-study" aria-haspopup="dialog" aria-label="View project: ${escapeHTML(project.title)}">View project details <span aria-hidden="true">↗</span></button>
+      </div>
+    </details>`).join('');
+  if (!visible.length) {
+    $('#project-grid').innerHTML = '<div class="project-empty"><h3>No matching projects</h3><p>Try a different term or clear the filters.</p><button class="button button-outline" id="clear-project-filters">Clear filters</button></div>';
+    $('#clear-project-filters').addEventListener('click', () => {
+      projectSearch.value = '';
+      $('[data-project-filter="all"]').click();
+      projectSearch.focus();
+    });
+  }
+  const cards = $$('.project-card');
+  cards.forEach(card => {
+    const summary = $('.project-summary',card);
+    const overview = $('.project-overview',card);
+    const caseStudy = $('.project-case-study',card);
+    let openedByHover = false;
+    let pointerInside = false;
+    let hoverDismissed = false;
+    function closeHoverPreview() {
+      if (openedByHover && !pointerInside && !overview.contains(document.activeElement) && !dialog.open) {
+        card.open = false;
+        openedByHover = false;
+      }
     }
+    card.addEventListener('pointermove',event => {
+      if (event.pointerType !== 'mouse' || !matchMedia('(hover: hover) and (pointer: fine) and (min-width: 601px)').matches) return;
+      pointerInside = true;
+      if (!card.open && !hoverDismissed) {
+        openedByHover = true;
+        card.open = true;
+        card.classList.add('hover-preview');
+      }
+    });
+    card.addEventListener('pointerleave',event => {
+      if (event.pointerType !== 'mouse') return;
+      pointerInside = false;
+      hoverDismissed = false;
+      closeHoverPreview();
+    });
+    card.addEventListener('focusout',event => {
+      if (!card.contains(event.relatedTarget)) queueMicrotask(closeHoverPreview);
+    });
+    card.addEventListener('keydown',event => {
+      if (event.key === 'Escape' && card.open && !dialog.open) {
+        event.stopPropagation();
+        card.open = false;
+        openedByHover = false;
+        summary.focus({preventScroll:true});
+      }
+    });
+    summary.addEventListener('click', event => {
+      if (openedByHover && card.open) {
+        // The first click on an already-hovered tile keeps the overview open.
+        event.preventDefault();
+      }
+      openedByHover = false;
+      card.classList.remove('hover-preview');
+    });
+    card.addEventListener('toggle', () => {
+      if (!card.open) {
+        card.classList.remove('hover-preview');
+        hoverDismissed = pointerInside;
+      }
+    });
+    caseStudy.addEventListener('click',() => openStory(card.dataset.id,caseStudy));
+  });
+  $('#project-count').textContent = visible.length === all.length ? `${all.length} ${all.length === 1 ? 'project' : 'projects'}` : `${visible.length} of ${all.length} projects`;
+  $('#show-projects').hidden = Boolean(query) || projectFilter !== 'all';
+  $('#show-projects').innerHTML = showArchive ? 'Back to selected work <span aria-hidden="true">↑</span>' : `Explore all ${content.projects.length} projects <span aria-hidden="true">↓</span>`;
+}
+
+// Allow dismissal of a hover preview even when the pointer did not move focus.
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && !dialog.open) {
+    $$('.project-card[open]:hover').forEach(card => { card.open = false; });
+  }
+});
+
+projectSearch.addEventListener('input', () => { if (content) renderProjects(); });
+$$('[data-project-filter]').forEach(button => button.addEventListener('click', () => {
+  if (!content) return;
+  projectFilter = button.dataset.projectFilter;
+  $$('[data-project-filter]').forEach(item => {
+    const active = item === button;
+    item.classList.toggle('active',active);
+    item.setAttribute('aria-pressed',String(active));
+  });
+  renderProjects();
+}));
+$('#show-projects').addEventListener('click', () => {
+  if (!content) return;
+  showArchive = !showArchive;
+  renderProjects();
+  if (!showArchive) $('#projects').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth'});
+});
+
+function openStory(id, trigger, updateURL=true) {
+  const project = content.projects.find(item => item.id === id);
+  if (!project || (dialog.open && currentStoryId === id)) return;
+  lastStoryTrigger = trigger;
+  currentStoryId = id;
+  $('#story-body').innerHTML = `
+    <article class="story-content"><p class="story-kicker">${categories[project.category]} / ${escapeHTML(project.context)} / ${escapeHTML(project.year)}</p>
+    <h2 id="story-title">${escapeHTML(project.title)}</h2><p class="story-lead">${escapeHTML(project.summary)}</p><div class="tag-list">${project.tags.map(tag=>`<span class="tag">${escapeHTML(tag)}</span>`).join('')}</div>
+    <div id="project-carousel"></div>
+    ${project.sections.map(section=>`<section class="story-section"><h3>${escapeHTML(section.heading)}</h3><p>${escapeHTML(section.text)}</p></section>`).join('')}
+    <div class="story-result"><span>RESULTS</span><p>${escapeHTML(project.result)}</p></div>
+    <div class="story-links">${project.repo ? `<a class="button button-dark" href="${escapeHTML(project.repo)}" target="_blank" rel="noopener noreferrer">View repository ↗</a>` : ''}<a class="text-link" href="${escapeHTML(project.source)}" target="_blank" rel="noopener">View source document ↗</a><button class="text-link" id="copy-story">Copy project link ↗</button></div>
+    <p class="story-source">Source: ${escapeHTML(project.source_label)}. Photographs and CAD images are from my engineering portfolio. Schematic illustrations summarise the project approach.</p></article>`;
+  const slides = [{image:project.image, diagram:project.diagram, title:project.title, description:project.image_description || project.summary, context:project.image ? 'Project image' : 'System overview'},
+    ...(project.gallery || []).map(image=>({image:image.image,title:image.caption,description:image.description,context:'Technical documentation'}))];
+  $('#project-carousel').append(createCarousel(slides,{label:`${project.title} images`,className:'story-carousel'}));
+  if (!dialog.open) dialog.showModal();
+  dialog.scrollTop = 0;
+  document.body.classList.add('dialog-open');
+  if (updateURL) {
+    const returnHash = location.hash;
+    const reuseEntry = history.state?.closedPortfolioStory === returnHash;
+    setProjectHash(`#project/${encodeURIComponent(id)}`, reuseEntry, {portfolioStory:id, returnHash});
+  }
+  $('#copy-story').addEventListener('click', async () => {
+    const button = $('#copy-story');
+    const url = new URL(`#project/${project.id}`, 'https://tanjun8802.github.io/');
+    try {
+      await navigator.clipboard.writeText(url.href);
+      button.textContent = 'Link copied ✓';
+    } catch {
+      // A selectable link remains usable when clipboard permissions are unavailable.
+      const input = document.createElement('input');
+      input.type = 'text'; input.value = url.href;
+      input.setAttribute('aria-label','Project story link');
+      button.replaceWith(input); input.focus(); input.select();
+    }
+  });
+}
+
+function setProjectHash(hash, replace=false, state=null) {
+  try {
+    if (replace) history.replaceState(state,'',hash || location.pathname + location.search);
+    else history.pushState(state,'',hash);
+  } catch {
+    // Some browsers restrict History API updates for local files.
+    if (replace) location.replace(hash);
+    else location.hash = hash;
+  }
+}
+
+function closeStory(updateURL=true) {
+  if (dialog.open) dialog.close();
+  currentStoryId = undefined;
+  document.body.classList.remove('dialog-open');
+  if (updateURL && location.hash.startsWith('#project/')) {
+    const returnHash = history.state?.returnHash ?? '#projects';
+    setProjectHash(returnHash, true, {closedPortfolioStory:returnHash});
+  }
+  const trigger = lastStoryTrigger;
+  requestAnimationFrame(() => {
+    if (dialog.open) return;
+    if (trigger?.isConnected) trigger.focus({preventScroll:true});
+    else {
+      $('#projects-heading').focus({preventScroll:true});
+      $('#projects').scrollIntoView({behavior:'instant'});
+    }
+  });
+}
+$('#close-story').addEventListener('click', () => closeStory());
+dialog.addEventListener('cancel', event => {event.preventDefault(); closeStory();});
+dialog.addEventListener('click', event => {
+  if (event.target !== dialog) return;
+  const rect = dialog.getBoundingClientRect();
+  if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) closeStory();
+});
+function syncStoryWithURL() {
+  if (!content) return;
+  const match = location.hash.match(/^#project\/([a-z0-9-]+)$/);
+  if (match) openStory(match[1], null, false);
+  else if (dialog.open) closeStory(false);
+}
+window.addEventListener('popstate',syncStoryWithURL);
+window.addEventListener('hashchange',syncStoryWithURL);
+// Observe the rendered graph so its paths follow larger text and responsive wrapping.
+const graphObserver = new ResizeObserver(() => { if (content) drawGraph(); });
+graphObserver.observe($('#commit-list'));
+document.fonts.ready.then(() => { if (content) drawGraph(); });
+
+const embeddedContent = $('#portfolio-data');
+const portfolioContent = embeddedContent
+  ? Promise.resolve().then(() => JSON.parse(embeddedContent.textContent))
+  : fetch('data.json').then(response => {
+      if (!response.ok) throw new Error(`Content request failed: ${response.status}`);
+      return response.json();
+    });
+portfolioContent.then(data => {
+  content = data;
+  selectedCommit = content.journey[0]?.id;
+  $('#hero-highlights').replaceChildren(createCarousel(content.highlights,{label:'Selected project photographs',className:'highlights-carousel'}));
+  renderGraph(); renderInspector(); renderProjects(); syncStoryWithURL();
+}).catch(error => {
+  console.error(error);
+  $('#commit-list').innerHTML = '<p class="load-error">The interactive stories could not load. Please refresh, or read the CV linked below.</p>';
+  $('#project-grid').innerHTML = '<p class="load-error">The project archive could not load. <a href="attachments/Jun%20Tan%20Portfolio.pdf">Read the original portfolio ↗</a></p>';
+  $('#show-projects').hidden = true;
 });
