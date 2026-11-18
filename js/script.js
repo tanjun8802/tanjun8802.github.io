@@ -3,7 +3,7 @@
 const $ = (selector, parent = document) => parent.querySelector(selector);
 const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
 const escapeHTML = value => String(value).replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
-const colors = {education:'#25647e', work:'#1a53ad', life:'#7e65a2'};
+const colors = {education:'#72dec0', work:'#ffad92', life:'#bfa4ff'};
 const categories = {ai:'AI & MACHINE LEARNING', robotics:'ROBOTICS', engineering:'ENGINEERING'};
 let content;
 let journeyFilter = 'all';
@@ -46,32 +46,38 @@ function drawGraph() {
   const commits = visibleCommits();
   const width = parseFloat(getComputedStyle(list).getPropertyValue('--graph-width'));
   const rect = list.getBoundingClientRect();
-  const y = index => {
-    const marker = $('.commit-marker', rows[index]).getBoundingClientRect();
-    return marker.top + marker.height / 2 - rect.top;
+  // Measure the real node centres: wrapping text must never detach an edge.
+  const points = rows.map(row => {
+    const marker = $('.commit-marker i', row).getBoundingClientRect();
+    return {x: marker.left + marker.width / 2 - rect.left, y: marker.top + marker.height / 2 - rect.top};
+  });
+  const edges = [];
+  const connect = (older, newer, branch) => {
+    if (older === undefined || newer === undefined || older === newer) return;
+    const from = points[older];
+    const to = points[newer];
+    const bend = Math.min(40, Math.abs(from.y - to.y) / 2);
+    const path = from.x === to.x
+      ? `M${from.x} ${from.y}V${to.y}`
+      : `M${from.x} ${from.y}C${from.x} ${from.y-bend} ${to.x} ${to.y+bend} ${to.x} ${to.y}`;
+    edges.push(`<path d="${path}" stroke="${colors[branch]}"/>`);
   };
-  const lastY = y(rows.length - 1);
-  let paths = `<path d="M14 0V${lastY}" stroke="#c1cfe2" stroke-dasharray="2 5"/>`;
-  if (journeyFilter === 'all') {
-    const root = commits.findIndex(commit => commit.branch === 'life');
-    const education = commits.map((commit,index) => commit.branch === 'education' ? index : -1).filter(index => index >= 0);
-    const work = commits.map((commit,index) => commit.branch === 'work' ? index : -1).filter(index => index >= 0);
-    if (education.length) {
-      const lastEducation = y(education.at(-1));
-      const rootY = root >= 0 ? y(root) : lastY;
-      paths += `<path d="M14 ${rootY}C14 ${rootY-30} 39 ${lastEducation+30} 39 ${lastEducation}V0" stroke="${colors.education}"/>`;
-    }
-    if (work.length) {
-      const startY = education.length ? y(education.at(-1)) : lastY;
-      const endY = education.length ? y(education[0]) : 0;
-      const bottomWork = y(work.at(-1));
-      const topWork = y(work[0]);
-      paths += `<path d="M39 ${startY}C39 ${startY-30} 65 ${bottomWork+30} 65 ${bottomWork}V${topWork}C65 ${topWork-30} 39 ${endY+30} 39 ${endY}" stroke="${colors.work}"/>`;
-    }
-  } else {
-    const x = journeyFilter === 'education' ? 39 : 65;
-    paths += `<path d="M14 ${rect.height}C14 ${lastY+12} ${x} ${lastY+20} ${x} ${lastY}V0" stroke="${colors[journeyFilter]}"/>`;
-  }
+  const branches = Object.keys(colors);
+  branches.forEach(branch => {
+    const indices = commits.flatMap((commit, index) => commit.branch === branch ? [index] : []);
+    // Each branch connects only its own actual milestones.
+    for (let index = 1; index < indices.length; index++) connect(indices[index], indices[index-1], branch);
+    if (journeyFilter !== 'all' || branch === 'education' || !indices.length) return;
+    const oldest = indices.at(-1);
+    const newest = indices[0];
+    const olderEducation = commits.findIndex((commit, index) => index > oldest && commit.branch === 'education');
+    const newerEducation = commits.findLastIndex((commit, index) => index < newest && commit.branch === 'education');
+    // Work and personal chapters fork from, and rejoin, neighbouring study nodes.
+    // An unbounded branch simply ends at its final milestone, without invented nodes.
+    if (olderEducation >= 0) connect(olderEducation, oldest, branch);
+    if (newerEducation >= 0) connect(newest, newerEducation, branch);
+  });
+  const paths = edges.join('');
   let svg = $('.branch-svg', list);
   if (!svg) {
     svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
@@ -89,7 +95,7 @@ function renderGraph() {
   const positions = {education:39,work:65,life:14};
   $('#commit-list').innerHTML = commits.map(commit => `
     <button class="commit-row ${commit.id === selectedCommit ? 'selected' : ''}" data-commit="${escapeHTML(commit.id)}" aria-pressed="${commit.id === selectedCommit}" aria-controls="commit-inspector" style="--branch-color:${colors[commit.branch]};--node-x:${positions[commit.branch]}px">
-      <span class="commit-marker" aria-hidden="true"><i></i></span><span class="commit-text"><strong>${escapeHTML(commit.label)}</strong><span>${escapeHTML(commit.organization)}</span></span><span class="commit-year">${escapeHTML(commit.year)}</span>
+      <span class="commit-marker" aria-hidden="true"><i></i></span><span class="commit-text"><span class="commit-branch">${escapeHTML(commit.branch)}${commit.id === content.journey[0]?.id ? '<span class="head-label">LATEST</span>' : ''}</span><strong>${escapeHTML(commit.label)}</strong><span>${escapeHTML(commit.organization)}</span></span><span class="commit-year">${escapeHTML(commit.year)}</span>
     </button>`).join('');
   $$('.commit-row').forEach(button => {
     button.addEventListener('click', () => {
@@ -133,6 +139,7 @@ function renderInspector() {
     return;
   }
   const index = commits.findIndex(item => item.id === selectedCommit);
+  $('#commit-inspector').style.setProperty('--selected-branch', colors[commit.branch]);
   $('#commit-inspector').innerHTML = `
     <div class="inspector-meta"><span class="branch-badge ${escapeHTML(commit.branch)}"><i class="legend-dot ${escapeHTML(commit.branch)}"></i>${escapeHTML(commit.branch)}</span><span>MILESTONE ${String(content.journey.length-content.journey.indexOf(commit)).padStart(2,'0')}</span></div>
     <h3>${escapeHTML(commit.organization)}</h3><p class="inspector-role">${escapeHTML(commit.role)}</p><p class="inspector-date">${escapeHTML(commit.date)}</p>

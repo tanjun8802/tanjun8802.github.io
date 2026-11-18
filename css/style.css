@@ -419,34 +419,6 @@ dialog::backdrop { background: #142239d9; backdrop-filter: blur(5px); }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 
-/* The introductory band separates the profile from the work library. */
-.hero-band {
-  color: #f3f7fd;
-  background:
-    radial-gradient(ellipse at 91% 13%, #28516d66 0, transparent 43%),
-    linear-gradient(122deg, #0f1d34 18%, #132e48 100%);
-}
-.hero-band .hero { padding-block: 54px 48px; }
-.hero-band .hero h1 { font-weight: 650; }
-.hero-band .hero-copy > .eyebrow { color: #a2dfd8; }
-.hero-band .hero-rule { background: #7fc8bd; }
-.hero-band .hero-intro { color: #d0ddec; }
-.hero-band .hero-footnote { color: #c2d5e7; }
-.hero-band .hero-actions .text-link { color: #e1edf8; border-color: #7d98ae; }
-.hero-band .hero-actions .button-dark { background: #a2dfd8; color: #102739; font-weight: 650; }
-.hero-band .hero-actions .button-dark:hover { background: #c8f1ec; }
-.hero-band .hero-actions :focus-visible { outline-color: #a2dfd8; }
-.hero-feature { min-width: 0; }
-.hero-feature-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; color: #b7d0df; }
-.hero-feature .carousel { color: var(--ink); box-shadow: 0 12px 32px #07152442; }
-.hero-feature .carousel-caption { padding: 16px 20px 18px; }
-.hero-feature .carousel-caption h3 { font-size: 22px; }
-.hero-feature .carousel-caption > p:last-of-type { font-size: 16px; line-height: 1.55; }
-.hero-feature .carousel-project-link { margin-top: 8px; }
-.hero-band .chapter-strip { background: transparent; border-top: 1px solid #7795b050; margin-bottom: 0; border-radius: 0; padding: 19px 0 24px; }
-.hero-band .chapter-strip > .mono { color: #abc2d6; }
-.hero-band .chapter-strip > div { color: #dce8f3; font-size: 15px; }
-
 .project-search {
   display: flex;
   align-items: center;
@@ -541,4 +513,148 @@ dialog::backdrop { background: #142239d9; backdrop-filter: blur(5px); }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+}
+
+/* The carousel photograph and its caption form the cover of the portfolio. */
+.portfolio-cover {
+  --cover-height: clamp(415px, 39vw, 600px);
+  --cover-gutter: max(5vw, calc((100vw - 1240px) / 2));
+  background: #101816;
+  color: white;
+  position: relative;
+}
+.cover-copy {
+  position: absolute;
+  z-index: 1;
+  top: calc(var(--cover-height) / 2);
+  left: var(--cover-gutter);
+  width: min(38%, 510px);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+.cover-copy .eyebrow { text-transform: uppercase; letter-spacing: .14em; color: #d4e4d8; }
+.cover-copy .eyebrow::before { content: ''; width: 32px; height: 2px; background: #b7f758; }
+.cover-copy h1 { font-size: clamp(80px,8.5vw,140px); line-height: 1; letter-spacing: -.075em; font-weight: 650; margin: .15em 0 .18em; }
+.cover-copy h1 span { color: #b7f758; }
+.cover-role { max-width: 19em; font-size: clamp(22px, 2vw, 30px); line-height: 1.27; font-weight: 450; letter-spacing: -.025em; }
+.cover-actions { display: flex; gap: 22px; align-items: center; margin-top: 30px; }
+.cover-actions a { display: inline-flex; align-items: center; gap: 13px; min-height: 46px; font-size: 16px; font-weight: 600; pointer-events: auto; }
+.cover-actions a:first-child { background: #b7f758; color: #142010; border-radius: 24px; padding: 8px 20px; }
+.cover-actions a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.cover-actions :focus-visible { outline-color: white; }
+.portfolio-cover .carousel { display: grid; grid-template-columns: 1fr auto; border: 0; border-radius: 0; box-shadow: none; background: #101816; }
+.portfolio-cover .carousel-media { grid-column: 1 / -1; position: relative; justify-content: flex-end; height: var(--cover-height); background: #101816; }
+.portfolio-cover .carousel-media img { width: 68%; object-fit: contain; background: #18221e; }
+.portfolio-cover .carousel-media img.cover { object-fit: cover; object-position: center 55%; }
+.portfolio-cover .carousel-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg,#101816 32%,rgba(16,24,22,.78) 40%,rgba(16,24,22,.32) 50%,transparent 65%); pointer-events: none; }
+.portfolio-cover .carousel-caption { grid-column: 1; grid-row: 2; background: #fbfcf8; color: #17221e; padding: 23px 32px 24px var(--cover-gutter); border-top: 4px solid #b7f758; display: grid; grid-template-columns: minmax(185px,.75fr) 1.5fr; column-gap: 38px; align-content: center; }
+.portfolio-cover .carousel-caption .eyebrow { grid-column: 1; color: #36654f; text-transform: uppercase; }
+.portfolio-cover .carousel-caption h3 { grid-column: 1; margin: 5px 0 0; font-size: clamp(20px,2vw,29px); }
+.portfolio-cover .carousel-caption > p:last-of-type { grid-row: 1 / 4; grid-column: 2; color: #43534b; align-self: center; line-height: 1.6; font-size: 16px; }
+.portfolio-cover .carousel-project-link { justify-self: start; align-self: start; color: #28563e; margin-top: 4px; }
+.portfolio-cover .carousel-controls { grid-row: 2; grid-column: 2; flex-direction: column; align-items: center; justify-content: center; gap: 4px; background: #fbfcf8; border-top: 4px solid #b7f758; padding-right: var(--cover-gutter); }
+.portfolio-cover .carousel-arrow { border-radius: 50%; border-color: #afc2b1; color: #173321; }
+.portfolio-cover .carousel-arrow:hover { background: #234335; color: white; }
+.portfolio-cover .carousel-dot { height: 28px; width: 25px; }
+.portfolio-cover .carousel-dot[aria-pressed=true]::before { background: #28563e; }
+@media(max-width:760px) {
+  .portfolio-cover { --cover-gutter: 20px; }
+  .cover-copy { position: static; width: 100%; padding: 32px var(--cover-gutter) 24px; transform: none; }
+  .cover-copy h1 { font-size: clamp(64px,14vw,95px); }
+  .cover-role { font-size: 23px; }
+  .cover-actions { margin-top: 20px; }
+  .portfolio-cover .carousel { display: flex; flex-direction: column; }
+  .portfolio-cover .carousel-media { height: clamp(230px,58vw,400px); }
+  .portfolio-cover .carousel-media img { width: 100%; }
+  .portfolio-cover .carousel-media::after { display: none; }
+  .portfolio-cover .carousel-caption { display: block; padding: 20px var(--cover-gutter) 10px; order: 1; }
+  .portfolio-cover .carousel-caption h3 { margin-bottom: 8px; }
+  .portfolio-cover .carousel-controls { order: 2; flex-direction: row; justify-content: space-between; flex-wrap: wrap; padding: 4px var(--cover-gutter) 16px; border: 0; }
+}
+
+/* The journey reads as a Git history, with every line anchored to a milestone. */
+.journey-window {
+  --graph-ink: #eef2f8;
+  --graph-muted: #adbacb;
+  --graph-border: #2a3749;
+  --graph-mint: #72dec0;
+  --graph-coral: #ffad92;
+  --graph-violet: #bfa4ff;
+  background: #111a27;
+  color: var(--graph-ink);
+  border: 1px solid var(--graph-border);
+  border-radius: 14px;
+  box-shadow: 0 22px 60px #13274312;
+}
+.journey-window .window-toolbar {
+  padding: 22px 26px;
+  background: #162131;
+  border-color: var(--graph-border);
+}
+.journey-window .window-title { font-size: 15px; }
+.journey-window .window-title .icon { color: var(--graph-mint); }
+.journey-window .toolbar-note { color: var(--graph-muted); }
+.journey-window .legend-dot.education { background: var(--graph-mint); }
+.journey-window .legend-dot.work { background: var(--graph-coral); }
+.journey-window .legend-dot.life { background: var(--graph-violet); }
+.journey-window .history-panel { border-color: var(--graph-border); padding: 22px 16px 22px 20px; }
+.journey-window .history-controls { border-color: var(--graph-border); gap: 4px; margin-right: 0; }
+.journey-window .filter { color: #bac8d9; padding-inline: 11px; }
+.journey-window .filter:hover { background: #223148; color: #fff; }
+.journey-window .filter.active { background: #293a50; color: #f7fbff; }
+.journey-window .branch-svg path { stroke-width: 2.5; }
+.journey-window .commit-list { padding-top: 14px; }
+.journey-window .commit-row { min-height: 112px; padding-block: 18px; border-radius: 7px; }
+.journey-window .commit-row:hover { background: #26364c70; }
+.journey-window .commit-row.selected { background: #26364c99; box-shadow: inset -3px 0 0 var(--branch-color); }
+.journey-window .commit-row:focus-visible { outline: 2px solid var(--branch-color); outline-offset: -2px; }
+.journey-window .commit-marker i { width: 11px; height: 11px; left: calc(var(--node-x) - 5.5px); border-color: #111a27; box-shadow: 0 0 0 2px var(--branch-color); }
+.journey-window .commit-row.selected .commit-marker i { box-shadow: 0 0 0 2px var(--branch-color), 0 0 0 7px color-mix(in srgb, var(--branch-color) 15%, transparent); }
+.journey-window .commit-text { gap: 6px; }
+.journey-window .commit-text strong { font-size: 16px; font-weight: 550; line-height: 1.45; }
+.journey-window .commit-text > span { color: #afbdd0; font-size: 14px; }
+.journey-window .commit-text > .commit-branch { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; color: var(--branch-color); font: 12px/1.4 var(--mono); }
+.journey-window .head-label { border: 1px solid #648b80; border-radius: 3px; padding: 2px 5px; font-size: 12px; letter-spacing: .04em; }
+.journey-window .commit-year { align-self: start; margin-top: 4px; color: #afbdd0; font-size: 12px; }
+.journey-window .graph-help { color: #a1b1c6; font-size: 12px; padding-top: 22px; }
+.journey-window .commit-inspector { background: #151f2e; padding: 32px; border-top: 3px solid var(--selected-branch, var(--graph-mint)); }
+.journey-window .commit-inspector:focus-visible { outline-color: var(--selected-branch, var(--graph-mint)); outline-offset: -4px; }
+.journey-window .inspector-meta { color: #9fadc0; font-size: 12px; }
+.journey-window .branch-badge { background: #193b35; color: var(--graph-mint); border-radius: 4px; font-size: 12px; }
+.journey-window .branch-badge.work { background: #422e2c; color: var(--graph-coral); }
+.journey-window .branch-badge.life { background: #342b4b; color: var(--graph-violet); }
+.journey-window .commit-inspector h3 { color: #f4f7fc; font-size: 30px; }
+.journey-window .inspector-role { color: #d0dbea; font-size: 17px; }
+.journey-window .inspector-date { color: #a6b6ca; }
+.journey-window .inspector-divider { border-color: var(--graph-border); }
+.journey-window .inspector-description { color: #bdcadc; font-size: 17px; }
+.journey-window .inspector-highlights { color: #bdcadc; font-size: 16px; }
+.journey-window .inspector-highlights li::marker { color: var(--selected-branch); }
+.journey-window .tag { border-color: #38485e; color: #b8c8db; background: #1a293b; }
+.journey-window .text-link, .journey-window .inspector-source { color: #a7d8f3; border-color: #496076; }
+.journey-window .text-link:hover, .journey-window .inspector-source:hover { color: #fff; }
+.journey-window .inspector-source { font-size: 13px; }
+.journey-window .inspector-nav button { color: #cfdaea; border-color: #41516a; }
+.journey-window .inspector-nav button:hover:not(:disabled) { background: #2a3b52; }
+.journey-window .window-status { background: #111a27; border-color: var(--graph-border); color: #acbdd0; }
+.journey-window :focus-visible { outline-color: #a7d8f3; }
+@media (max-width: 1100px) {
+  .journey-window .commit-inspector { padding: 28px; }
+  .journey-window .history-panel { padding-left: 14px; }
+}
+@media (max-width: 900px) {
+  .journey-window .commit-row { min-height: 106px; }
+  .journey-window .commit-inspector { border-top-width: 3px; }
+}
+@media (max-width: 600px) {
+  .journey-window { --graph-width: 78px; border-radius: 10px; }
+  .journey-window .window-toolbar { padding: 19px 20px; }
+  .journey-window .history-panel { padding: 16px 10px 18px; }
+  .journey-window .history-controls { gap: 2px; }
+  .journey-window .history-controls .filter { font-size: 13px; padding-inline: 9px; }
+  .journey-window .commit-row { min-height: 132px; padding-block: 18px; }
+  .journey-window .commit-year { margin-top: 0; padding-top: 8px; }
+  .journey-window .commit-inspector { padding: 26px 22px; }
+  .journey-window .commit-inspector h3 { font-size: 28px; }
+  .journey-window .graph-help { font-size: 12px; letter-spacing: 0; }
 }

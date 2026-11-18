@@ -30,28 +30,23 @@
     </nav>
   </header>
   <main id="main" tabindex="-1">
-    <div class="hero-band">
-    <section class="hero wrap" id="home" aria-labelledby="hero-heading">
-      <div class="hero-copy">
-        <p class="eyebrow"><span class="hero-rule" aria-hidden="true"></span> ENGINEERING PORTFOLIO</p>
-        <h1 id="hero-heading">{{name}}</h1>
-        <p class="hero-specialism">{{specialism}}</p>
-        <p class="hero-intro">{{introduction}}</p>
-        <div class="hero-actions"><a class="button button-dark" href="#projects">View projects <span aria-hidden="true">↓</span></a><a class="text-link" href="cv.html">View CV <span aria-hidden="true">→</span></a></div>
-        <div class="hero-footnote"><span class="degree-label">MSc · Imperial College London</span><span class="degree-divider" aria-hidden="true">/</span><span class="degree-label">BEng · University of Southampton</span></div>
+    <section class="portfolio-cover" id="home" aria-labelledby="hero-heading">
+      <div class="cover-copy">
+        <p class="eyebrow">Engineering portfolio</p>
+        <h1 id="hero-heading">{{name}}<span aria-hidden="true">.</span></h1>
+        <p class="cover-role">{{specialism}}</p>
+        <div class="cover-actions"><a href="#projects">Explore projects <span aria-hidden="true">↓</span></a><a href="cv.html">View CV <span aria-hidden="true">↗</span></a></div>
       </div>
-      <div class="hero-feature"><div class="hero-feature-label"><span class="mono">PROJECT GALLERY</span><span class="mono">{{gallery_count}}</span></div><div class="hero-visual" id="hero-highlights">
+      <div id="hero-highlights">
         <figure class="carousel">
           <div class="carousel-media"><img src="{{hero_image}}" alt="{{hero_title}}" fetchpriority="high" width="1000" height="735"></div>
           <figcaption class="carousel-caption"><p class="eyebrow">{{hero_context}}</p><h3>{{hero_title}}</h3><p>{{hero_description}}</p></figcaption>
         </figure>
-      </div></div>
+      </div>
     </section>
-    <div class="chapter-strip wrap"><span class="mono">EDUCATION &amp; INDUSTRY</span><div><span>Southampton</span><span>Dyson</span><span>Allye</span><span>Mercedes-AMG HPP</span><span>Imperial College London</span></div></div>
-    </div>
     <section class="section projects-section" id="projects" aria-labelledby="projects-heading">
       <div class="wrap">
-      <div class="section-heading"><div><p class="eyebrow">01 / SELECTED WORK</p><h2 id="projects-heading" tabindex="-1">Research and engineering projects</h2></div><p>Selected work in applied machine learning, robotics and system design.</p></div>
+      <div class="section-heading"><div><p class="eyebrow">01 / SELECTED WORK</p><h2 id="projects-heading" tabindex="-1">Research and engineering projects</h2></div><p>{{introduction}}</p></div>
       <div class="projects-toolbar"><div class="project-filters" aria-label="Filter projects"><button class="filter active" data-project-filter="all" aria-pressed="true">All projects</button><button class="filter" data-project-filter="ai" aria-pressed="false">AI &amp; machine learning</button><button class="filter" data-project-filter="robotics" aria-pressed="false">Robotics</button><button class="filter" data-project-filter="engineering" aria-pressed="false">Engineering</button></div><label class="project-search"><svg viewBox="0 0 24 24" class="icon" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 4.5 4.5"/></svg><input id="project-search" type="search" aria-label="Search projects" placeholder="Search projects"></label></div>
       <div class="project-caption-row"><p class="project-hint" id="project-hint">Hover or select a tile to preview it.</p><p id="project-count" role="status" aria-atomic="true"></p></div>
       <div class="project-grid" id="project-grid" aria-describedby="project-hint">{{projects}}</div>
@@ -62,9 +57,9 @@
       <div class="section-heading"><div><p class="eyebrow">02 / EXPERIENCE</p><h2 id="journey-heading">Education and experience</h2></div><p>An interactive timeline of my studies and engineering roles.<br>Select a milestone to view the details.</p></div>
       <p class="journey-intro">{{story}}</p>
       <div class="journey-window">
-        <div class="window-toolbar"><div class="window-title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="5" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="7" cy="19" r="3"/><path d="M7 8v8m10-6c0 5-10 1-10 6"/></svg><span>Experience timeline</span></div><span class="mono toolbar-note">EDUCATION / WORK / COMPETITION</span></div>
+        <div class="window-toolbar"><div class="window-title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="7" cy="5" r="3"/><circle cx="17" cy="7" r="3"/><circle cx="7" cy="19" r="3"/><path d="M7 8v8m10-6c0 5-10 1-10 6"/></svg><span>Experience timeline</span></div><span class="mono toolbar-note">A BRANCHING HISTORY</span></div>
         <div class="journey-layout">
-          <div class="history-panel"><div class="history-controls" aria-label="Filter journey"><button class="filter active" data-journey-filter="all" aria-pressed="true">All branches</button><button class="filter" data-journey-filter="education" aria-pressed="false"><i class="legend-dot education"></i>Education</button><button class="filter" data-journey-filter="work" aria-pressed="false"><i class="legend-dot work"></i>Work</button></div><div class="commit-list" id="commit-list" aria-label="Journey milestones"></div><p class="graph-help mono"><span aria-hidden="true">↳</span> SELECT A MILESTONE TO VIEW DETAILS</p></div>
+          <div class="history-panel"><div class="history-controls" aria-label="Filter journey"><button class="filter active" data-journey-filter="all" aria-pressed="true">All branches</button><button class="filter" data-journey-filter="education" aria-pressed="false"><i class="legend-dot education"></i>Education</button><button class="filter" data-journey-filter="work" aria-pressed="false"><i class="legend-dot work"></i>Work</button><button class="filter" data-journey-filter="life" aria-pressed="false"><i class="legend-dot life"></i>Life</button></div><div class="commit-list" id="commit-list" aria-label="Journey milestones"></div><p class="graph-help mono"><span aria-hidden="true">↳</span> SELECT A MILESTONE · ↑ ↓ TO EXPLORE</p></div>
           <div class="commit-inspector" id="commit-inspector" tabindex="-1" role="region" aria-label="Selected journey milestone" aria-live="polite" aria-atomic="true"></div>
         </div>
         <div class="window-status"><span><i class="legend-dot education"></i>education <i class="legend-dot work"></i>work <i class="legend-dot life"></i>life</span><span class="mono" id="commit-count">7 milestones</span></div>
