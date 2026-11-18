@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Content editor — Jun Tan</title>
+  <link rel="stylesheet" href="css/editor.css">
+  <script src="js/editor.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#editor-form">Skip to fields</a>
+  <header class="editor-header"><div><span class="eyebrow">YOUR PORTFOLIO</span><h1>Content editor</h1><p>Write your next chapter. Update the words and photographs in one place.</p></div><a class="quiet-link" href="dist/" target="_blank" rel="noopener">Preview built website ↗</a></header>
+  <div class="editor-shell">
+    <aside><nav id="sections" aria-label="Content sections"></nav><div class="editor-note"><strong>Local editing only</strong><p>Your changes stay in this browser until you save. Saving updates your project files; it does not publish the website.</p><a href="docs/CONTENT-EDITOR.md">Editing guide ↗</a></div></aside>
+    <main><div class="section-header"><div><p class="eyebrow" id="section-count">CONTENT</p><h2 id="section-title" tabindex="-1">Loading content…</h2><p id="section-help"></p></div></div><form id="editor-form" aria-label="Portfolio content" novalidate></form><p id="load-help" hidden>Start the local preview server from your project folder, then open <code>http://localhost:8000/editor.html</code>. You can also import your existing data.json below.</p></main>
+  </div>
+  <footer class="editor-footer"><div><p id="editor-status" role="status" aria-live="polite">Loading data.json…</p><p class="footer-note">Validate and preview before submitting your changes.</p></div><div class="actions"><label class="button secondary file-button">Import data.json<input id="import-content" type="file" accept="application/json,.json"></label><button id="download-content" class="button secondary" type="button" disabled>Download changes</button><button id="save-content" class="button primary" type="button" disabled>Save to project folder</button></div></footer>
+  <dialog id="save-dialog" aria-labelledby="save-title"><h2 id="save-title">Save your changes</h2><p id="save-description"></p><p>This replaces data.json in the selected project folder and adds any new pictures. It does not commit, push or publish.</p><div class="actions"><button type="button" class="button secondary" id="cancel-save">Cancel</button><button type="button" class="button primary" id="confirm-save">Save files</button></div></dialog>
+  <dialog id="download-dialog" aria-labelledby="download-title"><h2 id="download-title">Download your changes</h2><p>Download the content file and any new pictures below. Replace data.json in your project folder and put the pictures in assets/images. Existing files are not changed automatically.</p><div id="download-list"></div><button type="button" class="button primary" id="close-download">Done</button></dialog>
+</body>
+</html>

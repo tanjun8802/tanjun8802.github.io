@@ -1,0 +1,811 @@
+{
+  "profile": {
+    "name": "Jun Tan",
+    "email": "tanjun8802@gmail.com",
+    "github": "https://github.com/tanjun8802",
+    "linkedin": "https://www.linkedin.com/in/jun-tan-9ba764230/",
+    "cv": "cv.html",
+    "portfolio": "attachments/Jun%20Tan%20Portfolio.pdf",
+    "specialism": "Mechatronics engineer and machine learning researcher",
+    "introduction": "I develop intelligent systems across robotics, embedded software and machine learning. My work spans engineering roles at Dyson, Allye Energy and Mercedes-AMG HPP, followed by an MSc in Applied Machine Learning at Imperial College London.",
+    "story": "My engineering journey began with international robotics competitions, including the IYRC Open Maker title in 2017. At Southampton, I developed that practical experience through mechatronics, Formula Student and research into rehabilitation robotics. Industry roles took me into product testing, energy storage and Formula 1 powertrain software. I then completed postgraduate study in applied machine learning at Imperial, bringing my interests in physical systems and intelligent software together.",
+    "title": "Engineering & Machine Learning"
+  },
+  "journey": [
+    {
+      "id": "imperial",
+      "branch": "education",
+      "year": "2026",
+      "date": "September 2025 – September 2026 · completed",
+      "label": "MSc Applied Machine Learning",
+      "organization": "Imperial College London",
+      "role": "MSc Applied Machine Learning",
+      "summary": "I completed my MSc in Applied Machine Learning at Imperial College London in September 2026. My dissertation examined task-based transfer reinforcement learning, focusing on contrastive representations and F-N-B factorisation for knowledge reuse across tasks.",
+      "highlights": [
+        "Research into contrastive representations and F-N-B factorisation for few-shot and zero-shot transfer.",
+        "ML systems work spanning LoRA, neural architecture search, quantisation and CUDA kernels."
+      ],
+      "tags": [
+        "PyTorch",
+        "Reinforcement learning",
+        "ML systems"
+      ],
+      "source": "cv.html#education",
+      "source_label": "Source: CV · Education",
+      "project": "transfer-rl"
+    },
+    {
+      "id": "mercedes",
+      "branch": "work",
+      "year": "2024",
+      "date": "September 2024 – September 2025",
+      "label": "Software & Controls Placement",
+      "organization": "Mercedes-AMG HPP",
+      "role": "Software & Controls Placement · F1 R&D",
+      "summary": "At Mercedes-AMG High Performance Powertrains, I worked with the SECU, lap optimisation and software reliability teams on the 2026 Formula 1 power unit project. My responsibilities included on-car software development, energy deployment optimisation and control logic verification.",
+      "highlights": [
+        "Developed on-car software with attention to ECU thread balancing and processor loading.",
+        "Worked on energy deployment optimisation and Simulink control logic, supported by SiL and HiL verification.",
+        "Automated build and release tasks with MATLAB, YAML and Azure DevOps."
+      ],
+      "tags": [
+        "Simulink",
+        "Embedded systems",
+        "Optimisation",
+        "SiL / HiL"
+      ],
+      "source": "cv.html#experience",
+      "source_label": "Source: CV · Work experience"
+    },
+    {
+      "id": "allye",
+      "branch": "work",
+      "year": "2024",
+      "date": "June 2024 – August 2024",
+      "label": "Energy Storage & Engineering Internship",
+      "organization": "Allye Energy",
+      "role": "Energy Storage & Engineering Intern",
+      "summary": "At Allye Energy, I developed an HMI dashboard and backend API for battery energy storage systems. I also analysed a machine learning model used to optimise energy harvesting, deployment and load distribution.",
+      "highlights": [
+        "Delivered a full-stack dashboard for energy flow, state of charge and battery data.",
+        "Analysed prediction models for MAX300 storage units built from repurposed EV batteries.",
+        "The energy optimisation work reported grid harvesting cost reductions of up to 24%."
+      ],
+      "tags": [
+        "TypeScript",
+        "Java",
+        "MongoDB",
+        "Energy storage"
+      ],
+      "source": "cv.html#experience",
+      "source_label": "Source: CV · Work experience"
+    },
+    {
+      "id": "southampton-degree",
+      "branch": "education",
+      "year": "2024",
+      "date": "June 2024 · graduation",
+      "label": "BEng Graduation · First Class Honours",
+      "organization": "University of Southampton",
+      "role": "BEng Mechatronics Engineering with Industrial Studies",
+      "summary": "I graduated from the University of Southampton with First Class Honours in Mechatronics Engineering with Industrial Studies. My dissertation, Q-LEAC, applied reinforcement learning to electrical muscle stimulation with camera-based feedback for stroke rehabilitation.",
+      "highlights": [
+        "80.9% overall · First Class Honours.",
+        "2024 G-Research Prize · top of the class.",
+        "Q-LEAC reduced live training time by more than 50% against the traditional model-based approach used for comparison."
+      ],
+      "tags": [
+        "Mechatronics",
+        "Q-learning",
+        "Control systems"
+      ],
+      "source": "cv.html#education",
+      "source_label": "Source: CV · Education",
+      "project": "qleac"
+    },
+    {
+      "id": "dyson",
+      "branch": "work",
+      "year": "2023",
+      "date": "June 2023 – September 2023",
+      "label": "Mechatronics Engineering Internship",
+      "organization": "Dyson",
+      "role": "Mechatronics Engineering Intern · Measurement & Capability",
+      "summary": "In Dyson’s Measurement and Capability team, I developed modular LabVIEW software for an automated brushbar test rig. I also designed adapters to support testing across products and maintained documentation and source control for the changes.",
+      "highlights": [
+        "Refactored the test rig software, reducing computational cost by 40%.",
+        "Designed 3D-printed product adapters in Siemens NX.",
+        "Used Bitbucket, peer review, Jira and Confluence to keep changes traceable."
+      ],
+      "tags": [
+        "LabVIEW",
+        "Siemens NX",
+        "Test automation",
+        "Bitbucket"
+      ],
+      "source": "cv.html#experience",
+      "source_label": "Source: CV · Work experience"
+    },
+    {
+      "id": "southampton-start",
+      "branch": "education",
+      "year": "2021",
+      "date": "October 2021 – June 2024",
+      "label": "BEng Mechatronics Engineering",
+      "organization": "University of Southampton",
+      "role": "BEng Mechatronics Engineering · enrolment",
+      "summary": "My undergraduate studies combined mechanics, electronics, control systems and software. Practical projects included an FPGA computer, an autonomous rover and driver controls for the Southampton Formula Student team.",
+      "highlights": [
+        "2022 Zepler Prize.",
+        "Technical lead for an autonomous rover built in three months on a £130 budget.",
+        "Hands-on projects in embedded programming, CAD, electronics and feedback control."
+      ],
+      "tags": [
+        "C / C++",
+        "SOLIDWORKS",
+        "Electronics",
+        "Robotics"
+      ],
+      "source": "attachments/Jun%20Tan%20Portfolio.pdf#page=2",
+      "source_label": "Source: Portfolio · pages 2–9",
+      "project": "rover"
+    },
+    {
+      "id": "robotics",
+      "branch": "life",
+      "year": "2017",
+      "date": "2017 · International Youth Robot Competition",
+      "label": "IYRC Open Maker World Champion",
+      "organization": "International robotics competitions",
+      "role": "Malaysia representative · IYRC Open Maker World Champion",
+      "summary": "I represented Malaysia in international robotics competitions and won the IYRC Open Maker category in 2017. My projects included humanoid control, autonomous navigation and competition sumo robots.",
+      "highlights": [
+        "IYRC 2017 Open Maker Category World Champion.",
+        "Later projects included humanoids, omnidirectional robots and autonomous sumo robots.",
+        "Experience in mechanical prototyping, sensor integration and embedded control."
+      ],
+      "tags": [
+        "Making",
+        "Prototyping",
+        "Embedded control"
+      ],
+      "source": "attachments/Jun%20Tan%20Portfolio.pdf#page=10",
+      "source_label": "Source: CV + Portfolio · pages 10–11",
+      "project": "competition-robots"
+    }
+  ],
+  "projects": [
+    {
+      "id": "rover",
+      "title": "Autonomous Navigation Rover",
+      "category": "robotics",
+      "context": "University of Southampton",
+      "year": "2023",
+      "summary": "A six-wheel autonomous rover developed in three months on a £130 budget, integrating mechanical design, electronics and embedded control.",
+      "tags": [
+        "C++",
+        "Arduino",
+        "LIDAR",
+        "SOLIDWORKS"
+      ],
+      "sections": [
+        {
+          "heading": "Project overview",
+          "text": "As technical lead, I led the development of an autonomous rover capable of navigating obstacles and uneven terrain. The team designed and built the system within a three-month schedule and a £130 budget."
+        },
+        {
+          "heading": "Mechanical and electrical design",
+          "text": "The drivetrain used six worm-geared motors for high torque. The chassis combined custom 3D-printed and laser-cut parts with aluminium motor supports. Power distribution circuits supplied the motor drivers and electronics from a LiPo battery."
+        },
+        {
+          "heading": "Navigation and control",
+          "text": "A C++ path-planning algorithm on an Arduino Mega processed LIDAR measurements. An MPU6050 gyroscope provided heading feedback, with PID correction compensating for uneven motor output. The project also incorporated SLAM techniques for narrow environments and automatic headlights."
+        }
+      ],
+      "result": "The rover navigated obstacles and rough terrain successfully. The project received the highest mark recorded for the module, as documented in the engineering portfolio.",
+      "image": "assets/images/portfolio-02-1.jpg",
+      "source": "attachments/Jun%20Tan%20Portfolio.pdf#page=2",
+      "source_label": "Engineering portfolio · page 2",
+      "gallery": [
+        {
+          "image": "assets/images/portfolio-02-2.jpg",
+          "caption": "Power delivery and control schematic",
+          "description": "The schematic documents the power delivery and control connections between the battery, microcontroller, motor drivers and sensors."
+        },
+        {
+          "image": "assets/images/portfolio-02-3.jpg",
+          "caption": "Custom motor support CAD",
+          "description": "Custom motor supports designed for the rover’s chassis and manufactured through 3D printing."
+        }
+      ],
+      "image_description": "The completed six-wheel rover, showing the custom chassis, motor supports and integrated electronics.",
+      "preview": "Autonomous navigation on a £130 hardware budget."
+    },
+    {
+      "id": "gik",
+      "title": "Glove-based Invisible Keyboard",
+      "category": "ai",
+      "context": "Imperial College London",
+      "year": "2026",
+      "summary": "A wearable input system that uses motion and force sensors with deep learning to predict typed characters.",
+      "tags": [
+        "PyTorch",
+        "Attention LSTM",
+        "Sensor fusion",
+        "Optuna"
+      ],
+      "sections": [
+        {
+          "heading": "Project overview",
+          "text": "The Glove-based Invisible Keyboard project investigated typing on a surface without a physical keyboard. Sensor-equipped gloves captured finger and hand movements for live character prediction."
+        },
+        {
+          "heading": "Sensor integration",
+          "text": "Arduino Nano BLE Sense Rev2 controllers, inertial sensors and force-sensitive resistors recorded hand motion and surface contact. The resulting input contained 118 dimensions of sensor data."
+        },
+        {
+          "heading": "Learning and inference",
+          "text": "The custom REFFCO architecture combined an attention LSTM with language model fusion. Optuna supported hyperparameter tuning, and a live inference pipeline processed sensor readings to predict characters during typing."
+        }
+      ],
+      "result": "The project integrated embedded sensing, data processing and deep learning into a live character prediction pipeline.",
+      "diagram": "gik",
+      "repo": "https://github.com/Perceptron-GIK/glove-invisible-keyboard",
+      "source": "cv.html#research",
+      "source_label": "CV · projects and research",
+      "image_description": "A schematic summary of the system: glove sensor measurements are processed by an attention LSTM and combined with a language model to predict characters.",
+      "preview": "Translating hand movement into typed characters."
+    },
+    {
+      "id": "qleac",
+      "title": "Q-LEAC Stroke Rehabilitation System",
+      "category": "ai",
+      "context": "BEng dissertation · Southampton",
+      "year": "2024",
+      "summary": "A reinforcement learning controller combining electrical muscle stimulation and camera feedback for stroke rehabilitation.",
+      "tags": [
+        "Q-learning",
+        "MATLAB",
+        "C++",
+        "UltraLeap"
+      ],
+      "sections": [
+        {
+          "heading": "Research objective",
+          "text": "My BEng dissertation investigated Q-learning as a control approach for forearm muscle stimulation in stroke rehabilitation, compared with a traditional model-based controller."
+        },
+        {
+          "heading": "System implementation",
+          "text": "I developed a MATLAB–C++ system in which a Q-learning controller selected stimulation actions and an UltraLeap camera measured movement. The feedback loop supported real-time control."
+        },
+        {
+          "heading": "Evaluation",
+          "text": "The system was tested with patients in a hospital setting. The evaluation considered the live training time required by the controller relative to the model-based approach."
+        }
+      ],
+      "result": "Q-LEAC reduced live controller training time by more than 50% compared with the traditional model-based method. This result concerns controller training time and does not measure clinical recovery.",
+      "diagram": "qleac",
+      "repo": "https://github.com/tanjun8802/QLEAC_Stroke_Rehabilitation_System",
+      "source": "cv.html#research",
+      "source_label": "CV · projects and research",
+      "image_description": "The control loop links a Q-learning controller to forearm stimulation and UltraLeap movement tracking. Camera measurements provide feedback for subsequent control actions.",
+      "preview": "Learning a controller for rehabilitation robotics."
+    },
+    {
+      "id": "mase",
+      "title": "Mase EDGE: Android Model Optimisation",
+      "category": "ai",
+      "context": "Imperial College London",
+      "year": "2026",
+      "summary": "A hardware-in-the-loop pipeline for adapting deep neural networks to Android devices using measured device feedback.",
+      "tags": [
+        "Optuna",
+        "Android",
+        "QAT / PTQ",
+        "Pruning"
+      ],
+      "sections": [
+        {
+          "heading": "Project objective",
+          "text": "Mase EDGE addressed the deployment of deep neural networks on Android hardware. The objective was to select model and execution settings using feedback from the target device."
+        },
+        {
+          "heading": "Optimisation pipeline",
+          "text": "I developed a pipeline using Optuna to search model and execution parameters, including CPU, GPU and NPU backend delegation ratios. The workflow also incorporated quantisation-aware training, post-training quantisation and pruning."
+        },
+        {
+          "heading": "Device evaluation",
+          "text": "The optimisation study used real-time feedback from the model running in the Android app. This enabled deployment decisions to account for the specifications and behaviour of the target device."
+        }
+      ],
+      "result": "The pipeline automated the search for device-specific model and execution configurations, combining model optimisation with hardware measurements.",
+      "diagram": "mase",
+      "repo": "https://github.com/tanjun8802/Mase_EDGE",
+      "source": "cv.html#research",
+      "source_label": "CV · projects and research",
+      "image_description": "The optimisation workflow searches configurations with Optuna, deploys them to an Android device and uses measured feedback to guide the next search.",
+      "preview": "Adapting neural networks to real Android hardware."
+    },
+    {
+      "id": "formula-student",
+      "title": "Formula Student Driver Controls",
+      "category": "engineering",
+      "context": "Southampton Formula Student",
+      "year": "Undergraduate project",
+      "summary": "Driver controls development for an electric Formula Student car, covering cockpit integration, structural analysis and component manufacture.",
+      "tags": [
+        "SOLIDWORKS",
+        "ANSYS",
+        "CAN bus",
+        "Carbon fibre"
+      ],
+      "sections": [
+        {
+          "heading": "Responsibilities",
+          "text": "As a driver controls engineer for Southampton University Formula Student, I worked on the integration of the team’s electric vehicle. The design changes aimed to improve the driver’s experience and accommodate a larger accumulator behind the cockpit."
+        },
+        {
+          "heading": "Design and analysis",
+          "text": "I redesigned the steering rack cover in SOLIDWORKS and evaluated its structural performance in ANSYS. The work also covered steering, seating and firewall positions, brake pedal weight reduction, and dashboard integration for battery information, brake bias and DRS controls."
+        },
+        {
+          "heading": "Manufacture and testing",
+          "text": "I gained experience with carbon fibre wet lay-up, laser-cut moulds and waterjet-cut pedal structures. Vehicle testing included high-voltage tractive system verification, CAN bus monitoring and pedal telemetry."
+        }
+      ],
+      "result": "The steering rack cover’s structural strength and safety factor improved by 32%. The steering and seat system moved forward by 75 mm, and the brake pedal mass decreased by 15% while maintaining an arm safety factor above 2.5.",
+      "image": "assets/images/portfolio-03-1.jpg",
+      "source": "attachments/Jun%20Tan%20Portfolio.pdf#page=3",
+      "source_label": "Engineering portfolio · page 3",
+      "gallery": [
+        {
+          "image": "assets/images/portfolio-03-3.jpg",
+          "caption": "Southampton Formula Student electric race car",
+          "description": "The Southampton Formula Student electric race car in the workshop, incorporating the team’s vehicle and driver controls development."
+        },
+        {
+          "image": "assets/images/portfolio-03-2.jpg",
+          "caption": "Pedal and driver control assembly",
+          "description": "The pedal assembly model used to evaluate driver control integration and component weight reduction."
+        }
+      ],
+      "image_description": "The CAD assembly of the cockpit and driver controls, showing the seat, steering mechanism and pedal arrangement.",
+      "preview": "Driver controls for an electric race car."
+    },
+    {
+      "id": "quarantine",
+      "title": "IoT Quarantine Recorder",
+      "category": "robotics",
+      "context": "Quarantine Recorder",
+      "year": "2020",
+      "summary": "An Arduino-based prototype for collecting temperature and heartbeat readings and transmitting them to a central monitoring device.",
+      "tags": [
+        "Arduino",
+        "ESP8266",
+        "IoT",
+        "Prototyping"
+      ],
+      "sections": [
+        {
+          "heading": "Project objective",
+          "text": "I developed the Quarantine Recorder during COVID-19 to support the collection of temperature and heartbeat readings in quarantine centres. The prototype aimed to reduce manual monitoring work."
+        },
+        {
+          "heading": "Hardware and communication",
+          "text": "An Arduino Uno collected measurements from temperature and heartbeat sensors. An ESP8266 transmitted the readings to a main device for central monitoring."
+        }
+      ],
+      "result": "The prototype received the Innovative Maker Award and Most Market Value Award at the online NRL 2020 event.",
+      "image": "assets/images/portfolio-11-1.jpg",
+      "source": "attachments/Jun%20Tan%20Portfolio.pdf#page=11",
+      "source_label": "Engineering portfolio · page 11",
+      "image_description": "The Quarantine Recorder prototype, with sensing electronics, wireless communication hardware and a local display.",
+      "preview": "Connected sensing for remote health monitoring."
+    },
+    {
+      "id": "transfer-rl",
+      "title": "Task-based Transfer Reinforcement Learning",
+      "category": "ai",
+      "context": "MSc dissertation · Imperial",
+      "year": "2026",
+      "summary": "MSc dissertation research into contrastive representations and F-N-B factorisation for knowledge reuse across reinforcement learning tasks.",
+      "tags": [
+        "PyTorch",
+        "MuJoCo",
+        "Contrastive RL",
+        "F-N-B factorisation"
+      ],
+      "diagram": "transfer",
+      "sections": [
+        {
+          "heading": "Research objective",
+          "text": "My MSc dissertation investigated how an agent could reuse learned knowledge across tasks to address sample efficiency and training time in high-dimensional reinforcement learning."
+        },
+        {
+          "heading": "Approach",
+          "text": "The research explored task-based transfer reinforcement learning through contrastive representations and a custom F-N-B factorisation. It focused on few-shot and zero-shot transfer, including representation learning independent of a particular reward function."
+        },
+        {
+          "heading": "Research context",
+          "text": "The dissertation built on research around ExORL and OGBench. The implementation toolset included PyTorch and MuJoCo, alongside reinforcement learning methods such as SAC, TD3 and PPO."
+        }
+      ],
+      "result": "The dissertation examined representation learning and task information as a basis for transferring knowledge between reinforcement learning tasks.",
+      "source": "cv.html#research",
+      "source_label": "CV · MSc dissertation",
+      "image_description": "An illustration of the research approach: contrastive exploration, F-N-B factorisation and transfer to new tasks.",
+      "preview": "Reusing learned representations across tasks."
+    },
+    {
+      "id": "transformer",
+      "title": "Transformer Simulation and Optimisation",
+      "category": "engineering",
+      "context": "Electromagnetic simulation",
+      "year": "Undergraduate project",
+      "summary": "Finite element analysis of a single-phase transformer, investigating eddy current losses and simulation efficiency.",
+      "tags": [
+        "COMSOL",
+        "FEA",
+        "Electromagnetics"
+      ],
+      "sections": [
+        {
+          "heading": "Project objective",
+          "text": "This project explored a single-phase isolation transformer, with a focus on eddy current losses, unknown circuit parameters and the computational cost of simulation."
+        },
+        {
+          "heading": "Simulation method",
+          "text": "I modelled virtual lamination through effective conductivity and permeability matrices, studied current density and flux distribution, and used short-circuit and open-circuit tests to identify circuit parameters. Exploiting geometric symmetry reduced the simulation domain."
+        }
+      ],
+      "result": "Exploiting symmetry reduced simulation time from eight minutes to 59 seconds. The virtual lamination study reduced core current density by 87%.",
+      "image": "assets/images/portfolio-05-1.jpg",
+      "source": "attachments/Jun%20Tan%20Portfolio.pdf#page=5",
+      "source_label": "Engineering portfolio · page 5",
+      "gallery": [
+        {
+          "image": "assets/images/portfolio-05-2.jpg",
+          "caption": "Current density distribution from the transformer simulation",
+          "description": "The simulated current density distribution used to investigate losses and the effect of core lamination."
+        }
+      ],
+      "image_description": "The COMSOL geometry of the single-phase transformer used for the electromagnetic simulation.",
+      "preview": "Reducing losses through electromagnetic simulation."
+    },
+    {
+      "id": "actuator",
+      "title": "Electromagnetic Actuator Design",
+      "category": "engineering",
+      "context": "Magnetic actuator design",
+      "year": "Undergraduate project",
+      "summary": "Electromagnetic design and finite element analysis of an actuator specified to deliver 750 N across a 7 mm air gap.",
+      "tags": [
+        "COMSOL",
+        "Magnetostatics",
+        "Mesh refinement"
+      ],
+      "sections": [
+        {
+          "heading": "Design requirements",
+          "text": "Design a magnetic actuator capable of providing 750 N of force when the plunger is separated by a 7 mm air gap, while keeping the magnetic material below saturation."
+        },
+        {
+          "heading": "Analysis",
+          "text": "I constructed the geometry and electromagnetic model in COMSOL, used symmetry to reduce computation, and carried out a mesh refinement study. I compared analytical and simulation results while exploring how plunger geometry affected force as the air gap increased."
+        }
+      ],
+      "result": "The final simulation achieved 766 N while keeping the magnetic material below saturation.",
+      "image": "assets/images/portfolio-06-1.jpg",
+      "source": "attachments/Jun%20Tan%20Portfolio.pdf#page=6",
+      "source_label": "Engineering portfolio · page 6",
+      "image_description": "The simulated magnetic flux distribution in the actuator, used to assess force generation and magnetic saturation.",
+      "preview": "Engineering an actuator for a 750 N target."
+    },
+    {
+      "id": "ball-screw",
+      "title": "Ball Screw Drivetrain Design",
+      "category": "engineering",
+      "context": "Power Drives Design Project",
+      "year": "Undergraduate project",
+      "summary": "Motion profiling, component sizing and CAD design for a ball screw drive in an aerospace test system.",
+      "tags": [
+        "MATLAB",
+        "SOLIDWORKS",
+        "Motion control"
+      ],
+      "sections": [
+        {
+          "heading": "Design requirements",
+          "text": "Develop a drive system for a test article undergoing rapid repeated motion. The design needed a motion profile, a suitable motor and a reliable method of measuring and limiting travel."
+        },
+        {
+          "heading": "Design and component sizing",
+          "text": "I generated a cubic polynomial motion profile in MATLAB, calculated peak and continuous torque from the system inertia, and sized the motor and encoders. Datum and limit switches supported safe operation, with a SOLIDWORKS assembly bringing the components together."
+        }
+      ],
+      "result": "The final design package included motion and torque calculations, motor and encoder selections, and manufacturing drawings.",
+      "image": "assets/images/portfolio-04-2.jpg",
+      "source": "attachments/Jun%20Tan%20Portfolio.pdf#page=4",
+      "source_label": "Engineering portfolio · page 4",
+      "gallery": [
+        {
+          "image": "assets/images/portfolio-04-1.jpg",
+          "caption": "Displacement, velocity and acceleration motion profile",
+          "description": "The MATLAB motion profile shows displacement, velocity and acceleration over the specified test cycle."
+        }
+      ],
+      "image_description": "The CAD model of the ball screw drivetrain, including the motor, coupling, screw and test article support.",
+      "preview": "Motion control for an aerospace test system."
+    },
+    {
+      "id": "nxp",
+      "title": "NXP Camera-guided Robot",
+      "category": "robotics",
+      "context": "NXP Intelligence Car Challenge",
+      "year": "Undergraduate project",
+      "summary": "Chassis design, rapid prototyping and drivetrain integration for a camera-guided competition robot.",
+      "tags": [
+        "SOLIDWORKS",
+        "BLDC",
+        "OpenCV",
+        "PID"
+      ],
+      "sections": [
+        {
+          "heading": "Responsibilities",
+          "text": "For the NXP Intelligence Car Challenge at Southampton, my main responsibility was designing and manufacturing the robot’s structure and supporting drivetrain integration."
+        },
+        {
+          "heading": "Hardware design",
+          "text": "I designed a chassis with dedicated positions for motors, gears, batteries and circuit boards. A lightweight 3D-printed base and acrylic upper plate supported the processor, with cooling fans, custom silicone tyres and BLDC motor control."
+        },
+        {
+          "heading": "System integration",
+          "text": "The team’s vision pipeline used Python, OpenCV and NumPy for track boundary detection. My mechanical and drivetrain work supported camera-guided navigation and closed-loop speed control."
+        }
+      ],
+      "result": "The project provided practical experience in rapid prototyping, custom circuitry and BLDC drivetrain integration for camera-based navigation.",
+      "image": "assets/images/portfolio-07-2.jpg",
+      "source": "attachments/Jun%20Tan%20Portfolio.pdf#page=7",
+      "source_label": "Engineering portfolio · page 7",
+      "gallery": [
+        {
+          "image": "assets/images/portfolio-07-1.jpg",
+          "caption": "Chassis CAD with mounting locations",
+          "description": "The chassis model includes mounting positions for the motors, batteries, electronics and processor."
+        },
+        {
+          "image": "assets/images/portfolio-07-3.jpg",
+          "caption": "A custom circuit used in drivetrain integration",
+          "description": "A prototype circuit developed to support signal processing within the drivetrain integration."
+        }
+      ],
+      "image_description": "The assembled competition robot, showing the integrated chassis, electronics and drivetrain.",
+      "preview": "Mechanical design for camera-guided navigation."
+    },
+    {
+      "id": "pcb",
+      "title": "RFID Reader PCB",
+      "category": "engineering",
+      "context": "RFID reader PCB",
+      "year": "Undergraduate project",
+      "summary": "Circuit simulation, PCB layout, assembly and testing of an RFID tag reader.",
+      "tags": [
+        "Autodesk EAGLE",
+        "Multisim",
+        "PCB design"
+      ],
+      "sections": [
+        {
+          "heading": "Circuit design",
+          "text": "I designed an RFID tag reader with antenna and demodulation circuitry. NI Multisim supported the filter, amplifier, power supply and detector simulations before the board layout was created in Autodesk EAGLE."
+        },
+        {
+          "heading": "PCB implementation",
+          "text": "I created custom footprints for the LCD and buzzer, arranged and routed the components, and separated analogue and digital circuitry to limit signal distortion. After university manufacturing, I soldered the components and validated the board on the bench."
+        }
+      ],
+      "result": "The manufactured board successfully detected RFID tags at multiple distances during bench testing.",
+      "image": "assets/images/portfolio-08-1.jpg",
+      "source": "attachments/Jun%20Tan%20Portfolio.pdf#page=8",
+      "source_label": "Engineering portfolio · page 8",
+      "gallery": [
+        {
+          "image": "assets/images/portfolio-08-2.jpg",
+          "caption": "RFID signal processing and detector schematic",
+          "description": "The reader schematic includes signal filtering, amplification and detection stages."
+        }
+      ],
+      "image_description": "The RFID reader PCB layout, showing the antenna structure and the arrangement of signal-processing components.",
+      "preview": "From circuit simulation to an assembled reader."
+    },
+    {
+      "id": "fpga",
+      "title": "FPGA Computer Architecture",
+      "category": "engineering",
+      "context": "Digital Systems & Microprocessors",
+      "year": "Year one",
+      "summary": "A simple computer implemented in SystemVerilog, covering instruction execution, arithmetic and memory operations.",
+      "tags": [
+        "SystemVerilog",
+        "FPGA",
+        "Quartus",
+        "ModelSim"
+      ],
+      "sections": [
+        {
+          "heading": "Project overview",
+          "text": "In my first year, I modelled a simple computer using SystemVerilog on an Altera FPGA. The resulting system was used to encrypt and decrypt strings of letters."
+        },
+        {
+          "heading": "Computer architecture",
+          "text": "A three-bit opcode and five-bit address formed an eight-bit bus protocol. Registers, tri-state buffers, an ALU and a synchronising clock supported the instruction cycle, with simulation in Quartus and ModelSim. ROM held instructions while RAM stored variables and results."
+        }
+      ],
+      "result": "The FPGA implementation performed basic computer operations, including address loading and ALU arithmetic, and was used for string encryption and decryption.",
+      "image": "assets/images/portfolio-09-2.jpg",
+      "source": "attachments/Jun%20Tan%20Portfolio.pdf#page=9",
+      "source_label": "Engineering portfolio · page 9",
+      "gallery": [
+        {
+          "image": "assets/images/portfolio-09-1.jpg",
+          "caption": "The computer’s register, ALU and memory architecture",
+          "description": "The architecture diagram shows the connections between the program counter, registers, ALU and memory."
+        }
+      ],
+      "image_description": "The FPGA development board used to implement and test the SystemVerilog computer design.",
+      "preview": "Building a computer in programmable logic."
+    },
+    {
+      "id": "competition-robots",
+      "title": "Competition Robotics",
+      "category": "robotics",
+      "context": "Competition robotics",
+      "year": "Robotics competitions",
+      "summary": "Humanoid, omnidirectional and sumo robot projects developed for national and international competitions.",
+      "tags": [
+        "Embedded C",
+        "CAD",
+        "Sensors",
+        "Motor control"
+      ],
+      "sections": [
+        {
+          "heading": "Robot platforms",
+          "text": "Humanoid dancing and boxing introduced servo coordination, balance and inverse kinematics. Mecanum and omnidirectional robots brought new challenges in weight distribution and movement, while football robots combined infrared ball detection with compass navigation."
+        },
+        {
+          "heading": "Sumo robot development",
+          "text": "I designed robust steel chassis, worked with high-torque worm-geared DC motors and used Arduino control with Cytron motor drivers. Remote-controlled versions mapped controller inputs to driving modes; autonomous versions used ultrasonic and infrared sensing to locate opponents and stay inside the arena."
+        }
+      ],
+      "result": "Competition results included wins at Singapore Open 2019 and KLESF 2019 sumo events, and second place in humanoid boxing at myMaker 2019.",
+      "image": "assets/images/portfolio-11-2.jpg",
+      "source": "attachments/Jun%20Tan%20Portfolio.pdf#page=11",
+      "source_label": "Engineering portfolio · page 11",
+      "gallery": [
+        {
+          "image": "assets/images/portfolio-10-2.jpg",
+          "caption": "Humanoid robot with coordinated servo control",
+          "description": "The humanoid robot used coordinated servo control for dancing and boxing competition movements."
+        },
+        {
+          "image": "assets/images/portfolio-10-3.jpg",
+          "caption": "Omnidirectional LEGO football robot",
+          "description": "The LEGO football robot used infrared ball detection, compass navigation and an omnidirectional drivetrain."
+        }
+      ],
+      "image_description": "Competition sumo robots with robust chassis, high-torque drivetrains and integrated control electronics.",
+      "preview": "Embedded control for international competitions."
+    },
+    {
+      "id": "parameter-golf",
+      "title": "Language Model Optimisation",
+      "category": "ai",
+      "context": "OpenAI Parameter Golf Challenge",
+      "year": "Independent project",
+      "summary": "Language model optimisation using MXINT4 quantisation-aware training, the Muon optimiser and unstructured pruning.",
+      "tags": [
+        "MXINT4",
+        "QAT",
+        "Muon",
+        "Pruning"
+      ],
+      "sections": [
+        {
+          "heading": "Optimisation techniques",
+          "text": "For the OpenAI Parameter Golf Challenge, I worked on language model optimisation using XSA, MXINT4-based quantisation-aware training, the Muon optimiser and unstructured pruning."
+        },
+        {
+          "heading": "Project focus",
+          "text": "The work examined how training algorithms, numerical precision and pruning affect the representation and optimisation of a language model."
+        }
+      ],
+      "result": "The project explored training, quantisation and pruning techniques for efficient language model representation.",
+      "diagram": "golf",
+      "source": "cv.html#research",
+      "source_label": "CV · projects and research",
+      "image_description": "An illustration of the model optimisation techniques: training with Muon, MXINT4 quantisation and weight pruning.",
+      "preview": "Exploring more efficient language models."
+    }
+  ],
+  "sources": [
+    {
+      "title": "Jun Tan CV",
+      "path": "cv.html"
+    },
+    {
+      "title": "Jun Tan Engineering Portfolio",
+      "path": "attachments/Jun%20Tan%20Portfolio.pdf"
+    },
+    {
+      "title": "Jun Tan on GitHub",
+      "url": "https://github.com/tanjun8802"
+    }
+  ],
+  "editorial_notes": {
+    "imperial_status": "MSc completion in September 2026 confirmed directly by Jun on 11 October 2026. This supersedes the ongoing status in the supplied CV."
+  },
+  "highlights": [
+    {
+      "image": "assets/images/portfolio-03-3.jpg",
+      "title": "Southampton Formula Student",
+      "context": "Vehicle engineering",
+      "description": "The team’s electric race car. As a driver controls engineer, I worked on the steering, seating, brake pedal and dashboard, supported by structural analysis and vehicle testing.",
+      "project": "formula-student",
+      "fit": "cover"
+    },
+    {
+      "image": "assets/images/portfolio-02-1.jpg",
+      "title": "Autonomous Navigation Rover",
+      "context": "Robotics · 2023",
+      "description": "A six-wheel rover developed in three months on a £130 budget. The custom chassis carries an Arduino Mega, LIDAR and a gyroscope for autonomous navigation and heading control.",
+      "project": "rover"
+    },
+    {
+      "image": "assets/images/portfolio-08-1.jpg",
+      "title": "RFID Reader PCB",
+      "context": "Electronic design",
+      "description": "The PCB layout for an RFID reader, including antenna and signal-processing circuitry. I designed the board in Autodesk EAGLE, soldered the components and verified tag detection through bench testing.",
+      "project": "pcb"
+    },
+    {
+      "image": "assets/images/portfolio-03-1.jpg",
+      "title": "Driver Controls Assembly",
+      "context": "Mechanical design",
+      "description": "A CAD model of the Formula Student cockpit and driver controls. The assembly was used to revise component positions and accommodate a larger accumulator behind the driver.",
+      "project": "formula-student"
+    },
+    {
+      "image": "assets/images/portfolio-11-1.jpg",
+      "title": "Quarantine Recorder",
+      "context": "Connected hardware · 2020",
+      "description": "An Arduino-based prototype that collects temperature and heartbeat readings and transmits them through an ESP8266 to a central device. It was developed to support monitoring in quarantine centres.",
+      "project": "quarantine"
+    }
+  ],
+  "interests": [
+    {
+      "id": "speedcubing",
+      "title": "Competitive speedcubing",
+      "text": "I represented Malaysia at the WCA World Championship in 2023. My speedcubing achievements include a personal best of 5.09 seconds and 27 competition medals.",
+      "stat": "5.09 s",
+      "detail": "Personal best · 27 competition medals"
+    },
+    {
+      "id": "music",
+      "title": "Piano and music theory",
+      "text": "Alongside engineering, I have studied piano and music theory, achieving ABRSM Grade 7 in Piano and Grade 8 in Music Theory.",
+      "stat": "Grade 7",
+      "detail": "ABRSM Piano · Grade 8 Music Theory"
+    },
+    {
+      "id": "robotics",
+      "title": "International robotics",
+      "text": "I represented Malaysia in robotics competitions and won the IYRC Open Maker category in 2017. My competition projects included humanoid and sumo robots.",
+      "stat": "2017",
+      "detail": "IYRC Open Maker · World Champion",
+      "image": "assets/images/portfolio-10-2.jpg"
+    }
+  ]
+}
